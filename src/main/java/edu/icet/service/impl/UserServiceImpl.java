@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateUser(Integer id, UserRequestDto userRequestDto) {
+    public void updateUser(Long id, UserRequestDto userRequestDto) {
         UserEntitty userEntity = repository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
         userEntity.setUsername(userRequestDto.getUsername());
         userEntity.setEmail(userRequestDto.getEmail());
@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUser(Integer id) {
+    public void deleteUser(Long id) {
         repository.deleteById(id);
     }
 
@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO getUserById(Integer id) {
+    public UserDTO getUserById(Long id) {
 
         return  mapper.toDto(repository.findById(id).get());
     }
