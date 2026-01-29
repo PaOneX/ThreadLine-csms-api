@@ -2,6 +2,7 @@ package edu.icet.service.impl;
 
 import edu.icet.mapper.UserMapper;
 import edu.icet.model.dto.UserDTO;
+import edu.icet.model.dto.UserRequestDto;
 import edu.icet.model.entity.UserEntitty;
 import edu.icet.repository.UserRepository;
 import edu.icet.service.UserService;
@@ -18,13 +19,17 @@ public class UserServiceImpl implements UserService {
     private final UserRepository repository;
     private final UserMapper mapper;
     @Override
-    public void addUser(UserDTO userDTO) {
-       repository.save( mapper.toEntity(userDTO));
+    public void addUser(UserRequestDto requestDto) {
+       repository.save( mapper.toEntity(requestDto));
     }
 
     @Override
-    public void updateUser(UserDTO userDTO) {
-        repository.save(mapper.toEntity(userDTO));
+    public void updateUser(Integer id, UserRequestDto userRequestDto) {
+        UserEntitty userEntity = repository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+        userEntity.setUsername(userRequestDto.getUsername());
+        userEntity.setEmail(userRequestDto.getEmail());
+        userEntity.setPassword(userRequestDto.getPassword());
+        repository.save(userEntity);
     }
 
     @Override
