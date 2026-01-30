@@ -19,7 +19,7 @@ public class PaymentEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long invoiceId;
-    private long transactionId;
+    private Long transactionId;
     private PaymentMode paymentMode;
     private Double amount;
     private Date payDate;
