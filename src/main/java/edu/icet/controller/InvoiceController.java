@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/invoice/")
+@RequestMapping("/invoices")
 @RequiredArgsConstructor
 public class InvoiceController {
     private final InvoiceService service;
@@ -19,7 +19,7 @@ public class InvoiceController {
         return service.getInvoices();
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public InvoiceDto getInvoice(@PathVariable Long id) {
         return service.getInvoiceById(id);
     }
@@ -29,12 +29,12 @@ public class InvoiceController {
         service.createInvoice(requestDto);
     }
 
-    @PutMapping("{id}")
+    @PutMapping("/{id}")
     public void updateInvoice(@PathVariable Long id,@RequestBody InvoiceRequestDto requestDto) {
         service.updateInvoice(id, requestDto);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public void deleteInvoice(@PathVariable Long id) {
         service.deleteInvoice(id);
     }
