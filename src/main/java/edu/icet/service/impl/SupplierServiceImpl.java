@@ -2,6 +2,7 @@ package edu.icet.service.impl;
 
 import edu.icet.mapper.SupplierMapper;
 import edu.icet.model.dto.SupplierDto;
+import edu.icet.model.dto.SupplierRequestDto;
 import edu.icet.model.entity.SupplierEntity;
 import edu.icet.repository.SupplierRepository;
 import edu.icet.service.SupplierService;
@@ -15,9 +16,10 @@ import java.util.List;
 public class SupplierServiceImpl implements SupplierService {
     private final SupplierRepository repository;
     private final SupplierMapper mapper;
+
     @Override
-    public void addSupplier(SupplierDto supplierDto) {
-        repository.save(mapper.toEntity(supplierDto));
+    public void addSupplier(SupplierRequestDto supplierRequestDto) {
+        repository.save(mapper.toEntity(supplierRequestDto));
     }
 
     @Override

@@ -5,20 +5,21 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+
 import java.sql.Timestamp;
 import java.util.Date;
 
 @Entity
-    @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
-    @ToString
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 public class InventoryEntity {
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private Long id;
-        private Integer quantity;
-        private Timestamp time;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private Integer quantity;
+    private Timestamp time;
 
     @PrePersist
     public void onCreate() {
