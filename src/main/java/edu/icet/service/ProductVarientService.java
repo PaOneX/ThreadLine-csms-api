@@ -11,6 +11,6 @@ public interface ProductVarientService {
     void deleteProductVarient(Long id);
     List<ProductVarientDto> findProductVarient();
     ProductVarientDto findProductById(Long id);
-    ProductVarientDto findProductBySize(String color);
-    ProductVarientDto findProductByColor(String colo);
+    List<ProductVarientDto> findProductBySize(String color);
+    List<ProductVarientDto> findProductByColor(String colo);
 }

@@ -37,25 +37,25 @@ public class ProductVarientImpl implements ProductVarientService {
 
     @Override
     public List<ProductVarientDto> findProductVarient() {
-        List<ProductVarientEntity> productVarient = repository.findAll();
-        return mapper.toDtoList(productVarient);
+        List<ProductVarientEntity> productVariant = repository.findAll();
+        return mapper.toDtoList(productVariant);
     }
 
     @Override
     public ProductVarientDto findProductById(Long id) {
-        ProductVarientEntity productVarient = repository.findById(id).orElseThrow(() -> new RuntimeException("Product Varient Not Found"));
-        return mapper.toDto(productVarient);
+        ProductVarientEntity productVariant = repository.findById(id).orElseThrow(() -> new RuntimeException("Product Varient Not Found"));
+        return mapper.toDto(productVariant);
     }
 
     @Override
-    public ProductVarientDto findProductBySize(String size) {
-        ProductVarientEntity productVarient = repository.findProductByColor(size);
-        return mapper.toDto(productVarient);
+    public List<ProductVarientDto> findProductBySize(String size) {
+        List<ProductVarientEntity> productVariant = repository.findProductBySize(size);
+        return mapper.toDtoList(productVariant);
     }
 
     @Override
-    public ProductVarientDto findProductByColor(String color) {
-        ProductVarientEntity productVarient = repository.findProductByColor(color);
-        return mapper.toDto(productVarient);
+    public List<ProductVarientDto> findProductByColor(String color) {
+        List<ProductVarientEntity> productVariant = repository.findProductByColor(color);
+        return mapper.toDtoList(productVariant);
     }
 }
