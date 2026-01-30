@@ -12,5 +12,5 @@ public interface PaymentService {
     void deletePayment(Long id);
     List<PaymentDto> getPayments();
     PaymentDto getPaymentBNyId(Long id);
-    PaymentDto getPaymentMode(PaymentMode paymentMode);
+    List<PaymentDto> getPaymentMode(PaymentMode paymentMode);
 }

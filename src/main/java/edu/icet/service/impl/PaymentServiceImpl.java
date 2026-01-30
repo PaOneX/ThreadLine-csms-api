@@ -25,7 +25,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public void updatePayment(Long id, PaymentRequestDto requestDto) {
-        PaymentEntity paymentEntity = repository.findById(id).get();
+        PaymentEntity paymentEntity = repository.findById(id).orElseThrow(() -> new RuntimeException("Payment not found"));
         paymentEntity.setPaymentMode(requestDto.getPaymentMode());
         paymentEntity.setAmount(requestDto.getAmount());
         paymentEntity.setTransactionId(requestDto.getTransactionId());
@@ -45,13 +45,13 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public PaymentDto getPaymentBNyId(Long id) {
-        PaymentEntity paymentEntity = repository.findById(id).get();
+        PaymentEntity paymentEntity = repository.findById(id).orElseThrow(() -> new RuntimeException("Payment not found"));
         return mapper.toDto(paymentEntity);
     }
 
     @Override
-    public PaymentDto getPaymentMode(PaymentMode paymentMode) {
-        PaymentEntity paymentEntity = repository.getPaymentMode(paymentMode);
-        return mapper.toDto(paymentEntity);
+    public List<PaymentDto> getPaymentMode(PaymentMode paymentMode) {
+        List<PaymentEntity> paymentEntity = repository.findByPaymentMode(paymentMode);
+        return mapper.toDtoList(paymentEntity);
     }
 }

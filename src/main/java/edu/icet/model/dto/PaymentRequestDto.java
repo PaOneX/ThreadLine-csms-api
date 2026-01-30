@@ -10,12 +10,9 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-
 public class PaymentRequestDto {
-
     private Long invoiceId;
-    private long transactionId;
+    private Long transactionId;
     private PaymentMode paymentMode;
     private Double amount;
-
 }
