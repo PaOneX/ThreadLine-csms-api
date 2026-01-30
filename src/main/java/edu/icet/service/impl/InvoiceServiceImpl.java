@@ -16,6 +16,7 @@ import java.util.List;
 public class InvoiceServiceImpl implements InvoiceService {
     private final InvoiceRepository repository;
     private final InvoiceMapper mapper;
+
     @Override
     public void createInvoice(InvoiceRequestDto requestDto) {
         repository.save(mapper.toEntity(requestDto));
@@ -29,7 +30,6 @@ public class InvoiceServiceImpl implements InvoiceService {
         invoiceEntity.setNetAmount(requestDto.getNetAmount());
         invoiceEntity.setStatus(requestDto.getStatus());
         repository.save(invoiceEntity);
-
     }
 
     @Override
@@ -40,6 +40,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     @Override
     public List<InvoiceDto> getInvoices() {
         List<InvoiceEntity> invoiceEntity = repository.findAll();
+        System.out.println("invoice size: " + invoiceEntity);
         return mapper.toDtoList(invoiceEntity);
     }
 
