@@ -9,4 +9,5 @@ public interface SupplierService {
     void addSupplier(SupplierDto supplierDto);
     void deleteSupplier(Long id);
     List<SupplierDto> getSuppliers();
+    SupplierDto getSupplierById(Long id);
 }
