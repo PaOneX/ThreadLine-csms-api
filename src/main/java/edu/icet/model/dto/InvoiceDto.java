@@ -1,6 +1,6 @@
 package edu.icet.model.dto;
 
-
+import edu.icet.util.Status;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,10 +12,11 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class UserDTO {
+public class InvoiceDto {
     private Long id;
-    private String username;
-    private String email;
-    private String password;
-    private Date creationDate;
+    private String invoiceNumber;
+    private Double taxAmount;
+    private Double netAmount;
+    private Date invoiceDate;
+    private Status status;
 }

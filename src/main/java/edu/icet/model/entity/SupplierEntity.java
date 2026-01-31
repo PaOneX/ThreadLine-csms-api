@@ -1,28 +1,25 @@
 package edu.icet.model.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-
-import java.sql.Timestamp;
-import java.util.Date;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class InventoryEntity {
+public class SupplierEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Integer quantity;
-    private Timestamp time;
-
-    @PrePersist
-    public void onCreate() {
-        time = new Timestamp(new Date().getTime());
-    }
+    private String name;
+    private String email;
 }
+
+

@@ -1,12 +1,12 @@
 package edu.icet.model.entity;
 
+import edu.icet.util.Status;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.sql.Timestamp;
 import java.util.Date;
 
 @Entity
@@ -14,15 +14,18 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class InventoryEntity {
+public class OrderEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Integer quantity;
-    private Timestamp time;
+    private Long userId;
+    private Date orderDate;
+    private Status status;
+    private Double orderAmount;
 
     @PrePersist
-    public void onCreate() {
-        time = new Timestamp(new Date().getTime());
+    public void orderDate(){
+        orderDate = new Date();
     }
+
 }

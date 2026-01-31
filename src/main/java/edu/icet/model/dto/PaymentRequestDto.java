@@ -1,21 +1,18 @@
 package edu.icet.model.dto;
 
-
+import edu.icet.util.PaymentMode;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.util.Date;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class UserDTO {
-    private Long id;
-    private String username;
-    private String email;
-    private String password;
-    private Date creationDate;
+public class PaymentRequestDto {
+    private Long invoiceId;
+    private Long transactionId;
+    private PaymentMode paymentMode;
+    private Double amount;
 }

@@ -9,7 +9,6 @@ import edu.icet.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -18,9 +17,10 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository repository;
     private final UserMapper mapper;
+
     @Override
     public void addUser(UserRequestDto requestDto) {
-       repository.save( mapper.toEntity(requestDto));
+        repository.save(mapper.toEntity(requestDto));
     }
 
     @Override
@@ -39,13 +39,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDTO> getUsers() {
-       List<UserEntitty> userEntity = repository.findAll();
-       return mapper.toDtoList(userEntity);
+        List<UserEntitty> userEntity = repository.findAll();
+        return mapper.toDtoList(userEntity);
     }
 
     @Override
     public UserDTO getUserById(Long id) {
-
-        return  mapper.toDto(repository.findById(id).get());
+        return mapper.toDto(repository.findById(id).get());
     }
 }

@@ -1,12 +1,12 @@
 package edu.icet.model.entity;
 
+import edu.icet.util.PaymentMode;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.sql.Timestamp;
 import java.util.Date;
 
 @Entity
@@ -14,15 +14,18 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class InventoryEntity {
+public class PaymentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Integer quantity;
-    private Timestamp time;
+    private Long invoiceId;
+    private Long transactionId;
+    private PaymentMode paymentMode;
+    private Double amount;
+    private Date payDate;
 
     @PrePersist
-    public void onCreate() {
-        time = new Timestamp(new Date().getTime());
+    public void date(){
+        payDate = new Date();
     }
 }

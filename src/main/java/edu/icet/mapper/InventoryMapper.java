@@ -10,6 +10,8 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface InventoryMapper {
     InventoryEntity toEntity(InventoryRequestDto requestDto);
+
     InventoryDto toDto(InventoryEntity inventoryEntity);
+
     List<InventoryDto> toDto(List<InventoryEntity> inventoryEntities);
 }
