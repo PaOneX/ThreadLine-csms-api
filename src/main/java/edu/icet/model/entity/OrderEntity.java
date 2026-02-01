@@ -24,7 +24,7 @@ public class OrderEntity {
     private Double orderAmount;
 
     @PrePersist
-    public void orderDate(){
+    public void orderDate() {
         orderDate = new Date();
     }
 

@@ -14,7 +14,8 @@ import java.util.Date;
     @ToString
 public class OrderRequestDto {
         private Long userId;
+        private Long orderItemId;
+        private String orderItemName;
         private Status status;
         private Double orderAmount;
-
 }
