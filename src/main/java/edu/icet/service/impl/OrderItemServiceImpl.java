@@ -9,7 +9,6 @@ import edu.icet.service.OrderItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -27,6 +26,7 @@ public class OrderItemServiceImpl implements OrderItemService {
         OrderItemEntity orderItem = repository.findById(id).orElseThrow(() -> new RuntimeException("OrderItem not found"));
         orderItem.setPrice(requestDto.getPrice());
         orderItem.setQuantity(requestDto.getQuantity());
+        orderItem.setOrderId(requestDto.getOrderId());
         repository.save(orderItem);
     }
 
