@@ -19,12 +19,14 @@ public class OrderEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long userId;
+    private Long orderItemId;
+    private String orderItemName;
     private Date orderDate;
     private Status status;
     private Double orderAmount;
 
     @PrePersist
-    public void orderDate(){
+    public void orderDate() {
         orderDate = new Date();
     }
 
