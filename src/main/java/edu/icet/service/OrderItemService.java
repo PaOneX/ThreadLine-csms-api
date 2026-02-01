@@ -6,8 +6,8 @@ import edu.icet.model.dto.OrderItemRequestDto;
 import java.util.List;
 
 public interface OrderItemService {
-    void addOrderItem(OrderItemRequestDto requestDto);
-    void updateOrderItem(Long id, OrderItemRequestDto requestDto);
-    void deleteOrderItem(Long id);
+    void addOrderItem(Long orderId, OrderItemRequestDto requestDto);
+    void updateOrderItem(Long orderId, Long itemId, OrderItemRequestDto requestDto);
+    void deleteOrderItem(Long id, Long itemId);
     List<OrderItemDto> getOrderItems(Long orderId);
 }

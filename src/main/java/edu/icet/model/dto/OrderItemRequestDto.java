@@ -10,7 +10,6 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class OrderItemRequestDto {
-    private Long orderId;
     private Long productVariantId;
     private Integer quantity;
     private Double price;

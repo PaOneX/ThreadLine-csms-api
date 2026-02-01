@@ -9,23 +9,28 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/OrderItems")
+@RequestMapping("/orders/{orderId}/items")
 @RequiredArgsConstructor
 public class OrderItemController {
     private final OrderItemService service;
 
-    @GetMapping("/{id}")
-    public List<OrderItemDto> findAll(@PathVariable Long id) {
-        return service.getOrderItems(id);
+    @GetMapping
+    public List<OrderItemDto> findAll(@PathVariable Long orderId) {
+        return service.getOrderItems(orderId);
     }
 
     @PostMapping
-    public void save(@RequestBody OrderItemRequestDto requestDto) {
-        service.addOrderItem(requestDto);
+    public void save(@PathVariable Long orderId, @RequestBody OrderItemRequestDto requestDto) {
+        service.addOrderItem(orderId ,requestDto);
     }
 
-    @PutMapping("/{id}")
-    private void update(@PathVariable Long id, @RequestBody OrderItemRequestDto requestDto) {
-        service.updateOrderItem(id, requestDto);
+    @PutMapping("/{itemId}")
+    public void update(@PathVariable Long orderId, @PathVariable Long itemId, @RequestBody OrderItemRequestDto requestDto) {
+        service.updateOrderItem(orderId, itemId, requestDto);
+    }
+
+    @DeleteMapping("/{itemId}")
+    public void delete(@PathVariable Long orderId, @PathVariable Long itemId) {
+        service.deleteOrderItem(orderId,itemId);
     }
 }
