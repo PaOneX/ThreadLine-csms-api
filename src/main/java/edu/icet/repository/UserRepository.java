@@ -1,7 +1,7 @@
 package edu.icet.repository;
 
-import edu.icet.model.entity.UserEntitty;
+import edu.icet.model.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRepository extends JpaRepository<UserEntitty, Long> {
+public interface UserRepository extends JpaRepository<User, Long> {
 }

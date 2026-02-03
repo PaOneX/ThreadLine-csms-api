@@ -2,16 +2,16 @@ package edu.icet.mapper;
 
 import edu.icet.model.dto.UserDTO;
 import edu.icet.model.dto.UserRequestDto;
-import edu.icet.model.entity.UserEntitty;
+import edu.icet.model.entity.User;
 import org.mapstruct.Mapper;
 
 import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
-    UserEntitty toEntity(UserRequestDto userRequestDto);
+    User toEntity(UserRequestDto userRequestDto);
 
-    List<UserDTO> toDtoList(List<UserEntitty> userEntity);
+    List<UserDTO> toDtoList(List<User> userEntity);
 
-    UserDTO toDto(UserEntitty userEntitty);
+    UserDTO toDto(User user);
 }

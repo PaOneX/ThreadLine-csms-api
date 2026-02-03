@@ -3,7 +3,7 @@ package edu.icet.service.impl;
 import edu.icet.mapper.UserMapper;
 import edu.icet.model.dto.UserDTO;
 import edu.icet.model.dto.UserRequestDto;
-import edu.icet.model.entity.UserEntitty;
+import edu.icet.model.entity.User;
 import edu.icet.repository.UserRepository;
 import edu.icet.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -25,11 +25,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateUser(Long id, UserRequestDto userRequestDto) {
-        UserEntitty userEntity = repository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
-        userEntity.setUsername(userRequestDto.getUsername());
-        userEntity.setEmail(userRequestDto.getEmail());
-        userEntity.setPassword(userRequestDto.getPassword());
-        repository.save(userEntity);
+        User user = repository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+        user.setUsername(userRequestDto.getUsername());
+        user.setEmail(userRequestDto.getEmail());
+        user.setPassword(userRequestDto.getPassword());
+        repository.save(user);
     }
 
     @Override
@@ -39,12 +39,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDTO> getUsers() {
-        List<UserEntitty> userEntity = repository.findAll();
-        return mapper.toDtoList(userEntity);
+        List<User> user = repository.findAll();
+        return mapper.toDtoList(user);
     }
 
     @Override
     public UserDTO getUserById(Long id) {
-        return mapper.toDto(repository.findById(id).get());
+        User user = repository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+        return mapper.toDto(user);
     }
 }
