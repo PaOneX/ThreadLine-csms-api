@@ -16,6 +16,7 @@ public class InvoiceEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private Long orderId;
     private String invoiceNumber;
     private Double taxAmount;
     private Double netAmount;

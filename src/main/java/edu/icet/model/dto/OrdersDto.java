@@ -20,4 +20,5 @@ public class OrdersDto {
  private Date orderDate;
  private Status status;
  private Double orderAmount;
+
 }
