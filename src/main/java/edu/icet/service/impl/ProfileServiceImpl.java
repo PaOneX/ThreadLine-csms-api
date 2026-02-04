@@ -25,7 +25,7 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     public UserDto getCurrentUserProfile(String username) {
         User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UserNotFoundException("User not found: " + username));
+                .orElseThrow(() -> new UserNotFoundException(username));
         return userMapper.toDto(user);
     }
 
@@ -33,7 +33,7 @@ public class ProfileServiceImpl implements ProfileService {
     @Transactional
     public UserDto updateProfile(String username, UpdateProfileRequest request) {
         User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UserNotFoundException("User not found: " + username));
+                .orElseThrow(() -> new UserNotFoundException(username));
 
         // Update only allowed fields
         if (request.getFullName() != null) {
@@ -51,7 +51,7 @@ public class ProfileServiceImpl implements ProfileService {
     @Transactional
     public void changePassword(String username, ChangePasswordRequest request) {
         User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UserNotFoundException("User not found: " + username));
+                .orElseThrow(() -> new UserNotFoundException(username));
 
         // Verify current password
         if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
