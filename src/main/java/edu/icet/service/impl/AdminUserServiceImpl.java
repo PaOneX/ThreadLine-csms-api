@@ -68,23 +68,38 @@ public class AdminUserServiceImpl implements AdminUserService {
     }
 
     @Override
+    @Transactional
     public UserDto enableUser(Long userId) {
-        return null;
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException(userId));
+
+        user.setEnabled(true);
+        User updatedUser = userRepository.save(user);
+        return userMapper.toDto(updatedUser);
     }
 
     @Override
+    @Transactional
     public UserDto disableUser(Long userId) {
-        return null;
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException(userId));
+
+        user.setEnabled(false);
+        User updatedUser = userRepository.save(user);
+        return userMapper.toDto(updatedUser);
     }
 
     @Override
     public List<UserDto> getAllUsers() {
-        return List.of();
+        List<User> users = userRepository.findAll();
+        return userMapper.toDtoList(users);
     }
 
     @Override
     public UserDto getUserById(Long userId) {
-        return null;
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException(userId));
+        return userMapper.toDto(user);
     }
 
     @Override
