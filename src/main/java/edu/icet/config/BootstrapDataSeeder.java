@@ -20,13 +20,13 @@ import java.util.Set;
 
 /**
  * Bootstrap data seeder that runs on application startup.
- *
+ * <p>
  * Creates default roles and the initial OWNER/super-admin user
  * so the system can be accessed for the first time.
- *
+ * <p>
  * This is the industry-standard approach for solving the "chicken and egg"
  * problem where you need an admin to create users, but have no admin yet.
- *
+ * <p>
  * Behavior:
  * - ALWAYS ensures required roles exist (OWNER, ADMIN, CASHIER)
  * - Creates bootstrap owner ONLY if no users exist in the database
@@ -93,11 +93,11 @@ public class BootstrapDataSeeder implements CommandLineRunner {
 
     /**
      * Creates the initial OWNER user if no users exist in the system.
-     *
+     * <p>
      * This solves the bootstrap problem: you need an admin to create users,
      * but you can't log in without a user. This creates the first user
      * automatically on first run.
-     *
+     * <p>
      * Security notes:
      * - Password MUST be provided via environment variable
      * - If no password is configured, bootstrap is skipped (fail-safe)
@@ -127,12 +127,12 @@ public class BootstrapDataSeeder implements CommandLineRunner {
         }
 
         // Get the OWNER role
-        Role ownerRole = roleRepository.findByName("ROLE_OWNER")
-                .orElseThrow(() -> new IllegalStateException("ROLE_OWNER not found after seeding"));
+        Role ownerRole = roleRepository.findByName("OWNER")
+                .orElseThrow(() -> new IllegalStateException("OWNER not found after seeding"));
 
         // Also give ADMIN role so owner can do everything
-        Role adminRole = roleRepository.findByName("ROLE_ADMIN")
-                .orElseThrow(() -> new IllegalStateException("ROLE_ADMIN not found after seeding"));
+        Role adminRole = roleRepository.findByName("ADMIN")
+                .orElseThrow(() -> new IllegalStateException("ADMIN not found after seeding"));
 
         // Create the bootstrap owner
         User owner = new User();

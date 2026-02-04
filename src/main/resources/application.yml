@@ -5,7 +5,7 @@ spring:
     password: ${DB_PASSWORD}
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: create
     show-sql: true
 
 security:
@@ -16,9 +16,10 @@ security:
 
 # Bootstrap configuration for initial system setup
 # These create the first OWNER account when the database is empty
+# ⚠️ CHANGE THE PASSWORD IN PRODUCTION via environment variables
 app:
   bootstrap:
     owner:
       username: ${APP_BOOTSTRAP_OWNER_USERNAME:owner}
       email: ${APP_BOOTSTRAP_OWNER_EMAIL:owner@threadline.local}
-      password: ${APP_BOOTSTRAP_OWNER_PASSWORD:}
+      password: ${APP_BOOTSTRAP_OWNER_PASSWORD:Owner@123}

@@ -3,8 +3,6 @@ package edu.icet.model.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Set;
-
 @Entity
 @Data
 @AllArgsConstructor
@@ -17,7 +15,4 @@ public class Role {
 
     @Column(unique = true, nullable = false)
     private String name;
-
-    @ManyToMany(mappedBy = "roles")
-    private Set<User> users;
 }
