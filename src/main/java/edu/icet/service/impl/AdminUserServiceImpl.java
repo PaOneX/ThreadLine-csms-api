@@ -92,6 +92,7 @@ public class AdminUserServiceImpl implements AdminUserService {
     }
 
     @Override
+    @Transactional
     public Page<UserDto> findUsers(UserSearchCriteria criteria, Pageable pageable) {
         Page<User> userPage;
 
@@ -110,7 +111,8 @@ public class AdminUserServiceImpl implements AdminUserService {
             );
         }
 
-        return userMapper.toDtoPage(userPage);
+        // Use Page.map() to convert Page<User> to Page<UserDto>
+        return userPage.map(userMapper::toDto);
     }
 
 

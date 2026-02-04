@@ -1,4 +1,4 @@
-package edu.icet.config;
+package edu.icet.exception;
 
 import edu.icet.model.dto.auth.ApiResponse;
 import jakarta.validation.ConstraintViolationException;
