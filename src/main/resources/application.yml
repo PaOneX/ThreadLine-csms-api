@@ -14,10 +14,16 @@ security:
     access-token-expiry-minutes: 15
     refresh-token-expiry-days: 7
 
-# Bootstrap configuration for initial system setup
-# These create the first OWNER account when the database is empty
-# ⚠️ CHANGE THE PASSWORD IN PRODUCTION via environment variables
+# Application configuration
 app:
+  # Dev-only: set true to disable authentication/authorization checks (permit all requests).
+  # Keep false in production.
+  security:
+    permit-all: ${APP_SECURITY_PERMIT_ALL:false}
+
+  # Bootstrap configuration for initial system setup
+  # These create the first OWNER account when the database is empty
+  # ⚠️ CHANGE THE PASSWORD IN PRODUCTION via environment variables
   bootstrap:
     owner:
       username: ${APP_BOOTSTRAP_OWNER_USERNAME:owner}
