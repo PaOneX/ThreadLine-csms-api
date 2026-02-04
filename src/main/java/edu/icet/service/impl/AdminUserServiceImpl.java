@@ -6,6 +6,7 @@ import edu.icet.mapper.UserMapper;
 import edu.icet.model.dto.user.AdminCreateUserRequest;
 import edu.icet.model.dto.user.UpdateUserRolesRequest;
 import edu.icet.model.dto.user.UserDto;
+import edu.icet.model.dto.user.UserSearchCriteria;
 import edu.icet.model.entity.Role;
 import edu.icet.model.entity.User;
 import edu.icet.repository.RoleRepository;
@@ -13,10 +14,11 @@ import edu.icet.repository.UserRepository;
 import edu.icet.service.AdminUserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Set;
 
 @Service
@@ -90,10 +92,27 @@ public class AdminUserServiceImpl implements AdminUserService {
     }
 
     @Override
-    public List<UserDto> getAllUsers() {
-        List<User> users = userRepository.findAll();
-        return userMapper.toDtoList(users);
+    public Page<UserDto> findUsers(UserSearchCriteria criteria, Pageable pageable) {
+        Page<User> userPage;
+
+        if (criteria.getRole() != null && !criteria.getRole().isEmpty()) {
+            userPage = userRepository.findByRoleAndEnabled(
+                    criteria.getRole(),
+                    criteria.getEnabled(),
+                    pageable
+            );
+        } else {
+            userPage = userRepository.findUsersByCriteria(
+                    criteria.getUsername(),
+                    criteria.getEmail(),
+                    criteria.getEnabled(),
+                    pageable
+            );
+        }
+
+        return userMapper.toDtoPage(userPage);
     }
+
 
     @Override
     public UserDto getUserById(Long userId) {
