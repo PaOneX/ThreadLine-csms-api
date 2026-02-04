@@ -7,6 +7,10 @@ import edu.icet.model.dto.user.UpdateUserRolesRequest;
 import edu.icet.model.dto.user.UserDto;
 import edu.icet.model.dto.user.UserSearchCriteria;
 import edu.icet.service.AdminUserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -27,11 +31,18 @@ public class UserController {
 
     private final AdminUserService adminUserService;
 
+    @Operation(summary = "List users (admin)")
+    @Parameter(name = "page", in = ParameterIn.QUERY, required = false, description = "0-based page index (default 0)", schema = @Schema(type = "integer", minimum = "0"))
+    @Parameter(name = "size", in = ParameterIn.QUERY, required = false, description = "Page size (default 20)", schema = @Schema(type = "integer", minimum = "1"))
+    @Parameter(name = "sort", in = ParameterIn.QUERY, required = false, description = "Sort property (default username)", schema = @Schema(type = "string"))
     @GetMapping
     public ResponseEntity<ApiResponse<PageResponse<UserDto>>> findUsers(
-            UserSearchCriteria criteria,
+            @Parameter(hidden = true) UserSearchCriteria criteria,
+            @Parameter(hidden = true)
             @PageableDefault(size = 20, sort = "username", direction = Sort.Direction.ASC) Pageable pageable
     ) {
+        // pageable + criteria are both optional.
+        // /api/admin/users will work with defaults: page=0,size=20,sort=username,asc
         Page<UserDto> users = adminUserService.findUsers(criteria, pageable);
         PageResponse<UserDto> pageResponse = PageResponse.of(users);
         return ResponseEntity.ok(
