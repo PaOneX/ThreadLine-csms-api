@@ -1,8 +1,8 @@
 package edu.icet.service.impl;
 
 import edu.icet.mapper.UserMapper;
-import edu.icet.model.dto.UserDTO;
-import edu.icet.model.dto.UserRequestDto;
+import edu.icet.model.dto.user.UserDto;
+import edu.icet.model.dto.user.UserRequestDto;
 import edu.icet.model.entity.User;
 import edu.icet.repository.UserRepository;
 import edu.icet.service.UserService;
@@ -38,13 +38,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDTO> getUsers() {
+    public List<UserDto> getUsers() {
         List<User> user = repository.findAll();
         return mapper.toDtoList(user);
     }
 
     @Override
-    public UserDTO getUserById(Long id) {
+    public UserDto getUserById(Long id) {
         User user = repository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
         return mapper.toDto(user);
     }

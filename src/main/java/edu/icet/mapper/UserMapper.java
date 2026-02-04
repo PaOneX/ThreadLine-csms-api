@@ -1,7 +1,7 @@
 package edu.icet.mapper;
 
-import edu.icet.model.dto.UserDTO;
-import edu.icet.model.dto.UserRequestDto;
+import edu.icet.model.dto.user.UserDto;
+import edu.icet.model.dto.user.UserRequestDto;
 import edu.icet.model.entity.User;
 import org.mapstruct.Mapper;
 
@@ -11,7 +11,7 @@ import java.util.List;
 public interface UserMapper {
     User toEntity(UserRequestDto userRequestDto);
 
-    List<UserDTO> toDtoList(List<User> userEntity);
+    List<UserDto> toDtoList(List<User> userEntity);
 
-    UserDTO toDto(User user);
+    UserDto toDto(User user);
 }

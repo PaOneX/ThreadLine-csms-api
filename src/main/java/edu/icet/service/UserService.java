@@ -1,7 +1,7 @@
 package edu.icet.service;
 
-import edu.icet.model.dto.UserDTO;
-import edu.icet.model.dto.UserRequestDto;
+import edu.icet.model.dto.user.UserDto;
+import edu.icet.model.dto.user.UserRequestDto;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ public interface UserService {
 
     void deleteUser(Long id);
 
-    List<UserDTO> getUsers();
+    List<UserDto> getUsers();
 
-    UserDTO getUserById(Long id);
+    UserDto getUserById(Long id);
 }
