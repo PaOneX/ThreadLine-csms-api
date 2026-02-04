@@ -80,20 +80,29 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     private String extractTokenFromRequest(HttpServletRequest req) {
-        // First try to get token from cookie
+        // 1) Try cookie first (cookie-based auth)
         Cookie[] cookies = req.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {
                 if ("accessToken".equals(cookie.getName())) {
-                    return cookie.getValue();
+                    String val = cookie.getValue();
+                    if (val != null && !val.isBlank()) {
+                        return val;
+                    }
                 }
             }
         }
 
-        // Fallback to Authorization header
+        // 2) Fallback to Authorization header (Bearer token)
         final String authHeader = req.getHeader("Authorization");
-        if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            return authHeader.substring(7);
+        if (authHeader != null) {
+            String trimmed = authHeader.trim();
+            if (trimmed.regionMatches(true, 0, "Bearer ", 0, 7)) {
+                String token = trimmed.substring(7).trim();
+                if (!token.isBlank()) {
+                    return token;
+                }
+            }
         }
 
         return null;
@@ -102,8 +111,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
         String path = request.getRequestURI();
-        return path.startsWith("/auth/")
-                || path.startsWith("/swagger-ui")
+
+        if ("/auth/login".equals(path) || "/auth/refresh".equals(path) || "/auth/logout".equals(path)) {
+            return true;
+        }
+
+        return path.startsWith("/swagger-ui")
                 || path.startsWith("/v3/api-docs");
     }
 }
