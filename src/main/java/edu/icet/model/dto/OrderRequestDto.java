@@ -6,16 +6,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.util.Date;
-
-    @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
-    @ToString
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 public class OrderRequestDto {
-        private Long userId;
-        private Long orderItemId;
-        private String orderItemName;
-        private Status status;
-        private Double orderAmount;
+    private Long userId;
+    private Long orderItemId;
+    private String orderItemName;
+    private Status status;
+    private Double orderAmount;
 }

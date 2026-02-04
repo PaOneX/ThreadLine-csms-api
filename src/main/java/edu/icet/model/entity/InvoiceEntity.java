@@ -23,7 +23,7 @@ public class InvoiceEntity {
     private Status status;
 
     @PrePersist
-    public void invoiceDate(){
+    public void invoiceDate() {
         invoiceDate = new Date();
     }
 

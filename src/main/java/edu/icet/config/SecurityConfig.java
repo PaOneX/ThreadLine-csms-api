@@ -1,4 +1,4 @@
- package edu.icet.config;
+package edu.icet.config;
 
 import edu.icet.util.jwt.JwtAuthenticationFilter;
 import jakarta.servlet.http.HttpServletResponse;

@@ -2,7 +2,6 @@ package edu.icet.controller;
 
 import edu.icet.model.dto.OrderRequestDto;
 import edu.icet.model.dto.OrdersDto;
-import edu.icet.model.entity.OrderEntity;
 import edu.icet.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

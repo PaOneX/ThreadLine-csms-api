@@ -12,11 +12,10 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class InvoiceRequestDto {
-        private String invoiceNumber;
-        private Double taxAmount;
-        private Double netAmount;
-        private Status status;
-
+    private String invoiceNumber;
+    private Double taxAmount;
+    private Double netAmount;
+    private Status status;
 
 
 }

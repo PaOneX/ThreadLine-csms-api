@@ -25,7 +25,7 @@ public class PaymentEntity {
     private Date payDate;
 
     @PrePersist
-    public void date(){
+    public void date() {
         payDate = new Date();
     }
 }

@@ -21,7 +21,7 @@ public class OrderItemController {
 
     @PostMapping
     public void save(@PathVariable Long orderId, @RequestBody OrderItemRequestDto requestDto) {
-        service.addOrderItem(orderId ,requestDto);
+        service.addOrderItem(orderId, requestDto);
     }
 
     @PutMapping("/{itemId}")
@@ -31,6 +31,6 @@ public class OrderItemController {
 
     @DeleteMapping("/{itemId}")
     public void delete(@PathVariable Long orderId, @PathVariable Long itemId) {
-        service.deleteOrderItem(orderId,itemId);
+        service.deleteOrderItem(orderId, itemId);
     }
 }

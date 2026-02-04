@@ -9,7 +9,12 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface InvoiceMapper {
+
+    @org.mapstruct.Mapping(target = "id", ignore = true)
+    @org.mapstruct.Mapping(target = "invoiceDate", ignore = true)
     InvoiceEntity toEntity(InvoiceRequestDto requestDto);
+
     InvoiceDto toDto(InvoiceEntity dto);
+
     List<InvoiceDto> toDtoList(List<InvoiceEntity> entities);
 }

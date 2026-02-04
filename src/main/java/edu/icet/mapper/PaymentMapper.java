@@ -10,6 +10,8 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface PaymentMapper {
     PaymentEntity toEntity(PaymentRequestDto requestDto);
-    PaymentDto toDto (PaymentEntity paymentEntity);
+
+    PaymentDto toDto(PaymentEntity paymentEntity);
+
     List<PaymentDto> toDtoList(List<PaymentEntity> paymentEntities);
 }

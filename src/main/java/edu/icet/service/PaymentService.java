@@ -8,9 +8,14 @@ import java.util.List;
 
 public interface PaymentService {
     void createPayment(PaymentRequestDto requestDto);
-    void updatePayment(Long id,PaymentRequestDto requestDto);
+
+    void updatePayment(Long id, PaymentRequestDto requestDto);
+
     void deletePayment(Long id);
+
     List<PaymentDto> getPayments();
+
     PaymentDto getPaymentBNyId(Long id);
+
     List<PaymentDto> getPaymentMode(PaymentMode paymentMode);
 }

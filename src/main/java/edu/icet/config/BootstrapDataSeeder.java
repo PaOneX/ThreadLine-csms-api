@@ -39,26 +39,22 @@ import java.util.Set;
 @Slf4j
 public class BootstrapDataSeeder implements CommandLineRunner {
 
-    private final RoleRepository roleRepository;
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
-
-    // Bootstrap owner credentials from environment variables
-    @Value("${app.bootstrap.owner.username:owner}")
-    private String ownerUsername;
-
-    @Value("${app.bootstrap.owner.email:owner@threadline.local}")
-    private String ownerEmail;
-
-    @Value("${app.bootstrap.owner.password:#{null}}")
-    private String ownerPassword;
-
     // Default roles that must exist in the system
     private static final List<String> REQUIRED_ROLES = Arrays.asList(
             "OWNER",   // Super admin - full access, can create admins
             "ADMIN",   // System operator - manages catalog, inventory, users
             "CASHIER"  // POS user - sales operations
     );
+    private final RoleRepository roleRepository;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    // Bootstrap owner credentials from environment variables
+    @Value("${app.bootstrap.owner.username:owner}")
+    private String ownerUsername;
+    @Value("${app.bootstrap.owner.email:owner@threadline.local}")
+    private String ownerEmail;
+    @Value("${app.bootstrap.owner.password:#{null}}")
+    private String ownerPassword;
 
     @Override
     @Transactional

@@ -36,7 +36,7 @@ public class PaymentController {
     }
 
     @PutMapping("/{id}")
-    public void updatePayment(@PathVariable Long id,@RequestBody PaymentRequestDto paymentDto) {
+    public void updatePayment(@PathVariable Long id, @RequestBody PaymentRequestDto paymentDto) {
         service.updatePayment(id, paymentDto);
     }
 
