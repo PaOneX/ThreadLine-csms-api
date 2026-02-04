@@ -13,12 +13,11 @@ import java.util.Date;
 @NoArgsConstructor
 @ToString
 public class OrdersDto {
- private Long id;
- private Long userId;
- private Long orderItemId;
- private String orderItemName;
- private Date orderDate;
- private Status status;
- private Double orderAmount;
-
+    private Long id;
+    private Long userId;
+    private Long orderItemId;
+    private String orderItemName;
+    private Date orderDate;
+    private Status status;
+    private Double orderAmount;
 }

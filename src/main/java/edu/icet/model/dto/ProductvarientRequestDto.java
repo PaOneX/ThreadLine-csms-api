@@ -10,9 +10,9 @@ import lombok.ToString;
 @RequiredArgsConstructor
 @ToString
 public class ProductvarientRequestDto {
-        private Long productId;
-        private String size;
-        private String color;
-        private Double price;
+    private Long productId;
+    private String size;
+    private String color;
+    private Double price;
 
 }

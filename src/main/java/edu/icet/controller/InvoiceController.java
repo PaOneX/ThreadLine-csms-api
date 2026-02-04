@@ -30,7 +30,7 @@ public class InvoiceController {
     }
 
     @PutMapping("/{id}")
-    public void updateInvoice(@PathVariable Long id,@RequestBody InvoiceRequestDto requestDto) {
+    public void updateInvoice(@PathVariable Long id, @RequestBody InvoiceRequestDto requestDto) {
         service.updateInvoice(id, requestDto);
     }
 

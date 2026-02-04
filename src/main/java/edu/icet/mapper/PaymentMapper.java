@@ -9,7 +9,11 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface PaymentMapper {
+    @org.mapstruct.Mapping(target = "id", ignore = true)
+    @org.mapstruct.Mapping(target = "payDate", ignore = true)
     PaymentEntity toEntity(PaymentRequestDto requestDto);
-    PaymentDto toDto (PaymentEntity paymentEntity);
+
+    PaymentDto toDto(PaymentEntity paymentEntity);
+
     List<PaymentDto> toDtoList(List<PaymentEntity> paymentEntities);
 }
