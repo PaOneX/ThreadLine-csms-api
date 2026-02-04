@@ -1,25 +1,22 @@
-package edu.icet.model.dto;
+package edu.icet.model.dto.user;
 
-
-import edu.icet.util.Role;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 import java.time.LocalDateTime;
-import java.util.Date;
+import java.util.Set;
 
-@Data
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
-public class UserDTO {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class UserDto {
     private Long id;
     private String email;
     private String username;
-    private String password;
-    private Role role;
+    private Set<String> roles;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }
