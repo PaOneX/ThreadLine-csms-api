@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@ControllerAdvice
+@ControllerAdvice(annotations = ControllerAdvice.class)
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(UserNotFoundException.class)
