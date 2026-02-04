@@ -22,9 +22,17 @@ public interface ProductMapper {
     void updateEntityFromDto(ProductDto dto, @MappingTarget Product entity);
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "name", source = "name")
+    @Mapping(target = "description", source = "description")
     @Mapping(target = "category.id", source = "category.id")
+    @Mapping(target = "category.name", ignore = true)
     ProductDto toDto(ProductRequestDto requestDto);
 
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "category.id", source = "category.id")
+    @Mapping(target = "category.name", ignore = true)
+    @Mapping(target = "name", source = "name")
+    @Mapping(target = "description", source = "description")
     Product toEntity(ProductRequestDto requestDto);
 
     void updateEntityFromDto(ProductRequestDto dto, @MappingTarget Product entity);

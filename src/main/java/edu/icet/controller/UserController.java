@@ -26,7 +26,7 @@ import java.net.URI;
 @RestController
 @RequestMapping("/api/admin/users")
 @RequiredArgsConstructor
-@PreAuthorize("hasRole('ADMIN')")
+@PreAuthorize("hasAnyRole('ADMIN','OWNER')")
 public class UserController {
 
     private final AdminUserService adminUserService;

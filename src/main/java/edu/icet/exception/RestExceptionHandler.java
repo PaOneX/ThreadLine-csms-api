@@ -8,6 +8,8 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.AuthenticationException;
 
 import java.util.stream.Collectors;
 
@@ -35,6 +37,18 @@ public class RestExceptionHandler {
     public ResponseEntity<ApiResponse<Void>> handleConstraintViolation(ConstraintViolationException ex) {
         return ResponseEntity.badRequest()
                 .body(ApiResponse.error(400, ex.getMessage(), "VALIDATION_ERROR"));
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ApiResponse<Void>> handleAccessDenied(AccessDeniedException ex) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body(ApiResponse.error(403, "Access denied", "FORBIDDEN"));
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<ApiResponse<Void>> handleAuthentication(AuthenticationException ex) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(ApiResponse.error(401, "Authentication required", "UNAUTHORIZED"));
     }
 
     /**

@@ -1,18 +1,13 @@
 package edu.icet.config;
 
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+/**
+ * CORS is configured in {@link SecurityConfig#corsConfigurationSource()}.
+ * Having both a WebMvcConfigurer CORS config and a Security CORS config can cause confusing,
+ * environment-dependent behavior. We keep a single source of truth in SecurityConfig.
+ */
 @Configuration
-public class WebConfig implements WebMvcConfigurer {
-
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedOrigins("http://localhost:5173")
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                .allowedHeaders("*")
-                .allowCredentials(false);
-    }
+public class WebConfig {
+    // Intentionally empty.
 }
