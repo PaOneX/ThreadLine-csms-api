@@ -1,6 +1,7 @@
 package edu.icet.model.dto.user;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import edu.icet.model.entity.Gender;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,8 @@ public class UserDto {
     private Long id;
     private String email;
     private String username;
+    private String fullName;
+    private Gender gender;
     private Set<String> roles;
     private Boolean enabled;
     private LocalDateTime createdAt;

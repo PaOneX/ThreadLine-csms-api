@@ -1,5 +1,6 @@
 package edu.icet.model.dto.user;
 
+import edu.icet.model.entity.Gender;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -23,6 +24,11 @@ public class AdminCreateUserRequest {
     @Email(message = "invalid email format")
     @Size(max = 254, message = "email is too long")
     private String email;
+
+    @Size(max = 100, message = "full name is too long")
+    private String fullName;
+
+    private Gender gender;
 
     @NotBlank(message = "Password is required")
     @Size(min = 6, max = 72, message = "password must be between 6 and 72 characters")

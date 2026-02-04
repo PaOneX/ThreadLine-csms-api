@@ -6,6 +6,7 @@ import lombok.*;
 import java.time.Instant;
 
 @Entity
+@Table(name = "refresh_tokens")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -21,7 +22,9 @@ public class RefreshToken {
     private String token;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @Column(name = "expiry_date", nullable = false)
     private Instant expiryDate;
 }

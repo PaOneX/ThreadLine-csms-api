@@ -4,11 +4,15 @@ import edu.icet.model.dto.auth.ApiResponse;
 import edu.icet.model.dto.auth.LoginRequest;
 import edu.icet.model.dto.auth.RefreshTokenRequest;
 import edu.icet.model.dto.auth.TokenResponse;
+import edu.icet.model.dto.user.ChangePasswordRequest;
+import edu.icet.model.dto.user.UpdateProfileRequest;
+import edu.icet.model.dto.user.UserDto;
 import edu.icet.model.entity.RefreshToken;
 import edu.icet.model.entity.Role;
 import edu.icet.model.entity.User;
 import edu.icet.repository.RefreshTokenRepository;
 import edu.icet.repository.UserRepository;
+import edu.icet.service.ProfileService;
 import edu.icet.util.CookieUtil;
 import edu.icet.util.jwt.JwtService;
 import jakarta.servlet.http.Cookie;
@@ -26,10 +30,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.security.Principal;
 import java.time.Instant;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -46,6 +53,7 @@ public class AuthController {
     private final UserRepository userRepository;
     private final RefreshTokenRepository refreshTokenRepository;
     private final JwtService jwtService;
+    private final ProfileService profileService;
 
     @PostMapping("/login")
     public ResponseEntity<ApiResponse<TokenResponse>> login(
@@ -227,5 +235,43 @@ public class AuthController {
         CookieUtil.deleteAuthCookies(response);
 
         return ResponseEntity.ok(ApiResponse.success(200, "Logged out", null));
+    }
+
+    // ==================== User Profile Endpoints ====================
+
+    /**
+     * Get current user's profile.
+     * Any authenticated user can access their own profile.
+     */
+    @GetMapping("/me")
+    public ResponseEntity<ApiResponse<UserDto>> getCurrentUserProfile(Principal principal) {
+        UserDto profile = profileService.getCurrentUserProfile(principal.getName());
+        return ResponseEntity.ok(ApiResponse.success(200, "Profile retrieved", profile));
+    }
+
+    /**
+     * Update current user's profile (fullName, etc.).
+     * Users can only update their own profile.
+     */
+    @PutMapping("/me")
+    public ResponseEntity<ApiResponse<UserDto>> updateProfile(
+            Principal principal,
+            @Valid @RequestBody UpdateProfileRequest request
+    ) {
+        UserDto updated = profileService.updateProfile(principal.getName(), request);
+        return ResponseEntity.ok(ApiResponse.success(200, "Profile updated", updated));
+    }
+
+    /**
+     * Change current user's password.
+     * Requires current password for verification.
+     */
+    @PutMapping("/me/password")
+    public ResponseEntity<ApiResponse<Void>> changePassword(
+            Principal principal,
+            @Valid @RequestBody ChangePasswordRequest request
+    ) {
+        profileService.changePassword(principal.getName(), request);
+        return ResponseEntity.ok(ApiResponse.success(200, "Password changed successfully", null));
     }
 }

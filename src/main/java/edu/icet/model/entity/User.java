@@ -26,6 +26,13 @@ public class User {
     @Column(unique = true, nullable = false)
     private String username;
 
+    @Column(name = "full_name", length = 100)
+    private String fullName;
+
+    @Enumerated(EnumType.STRING)
+    @Column(length = 10)
+    private Gender gender;
+
     @Column(nullable = false)
     private String password;
 
@@ -40,7 +47,10 @@ public class User {
     @Column(nullable = false)
     private Boolean enabled = true;
 
+    @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
     @PrePersist

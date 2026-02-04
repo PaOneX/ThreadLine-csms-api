@@ -45,6 +45,8 @@ public class AdminUserServiceImpl implements AdminUserService {
         User user = new User();
         user.setUsername(request.getUsername());
         user.setEmail(request.getEmail());
+        user.setFullName(request.getFullName());
+        user.setGender(request.getGender());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setEnabled(true);
 

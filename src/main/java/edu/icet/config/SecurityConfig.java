@@ -1,4 +1,4 @@
-package edu.icet.config;
+ package edu.icet.config;
 
 import edu.icet.util.jwt.JwtAuthenticationFilter;
 import jakarta.servlet.http.HttpServletResponse;
@@ -54,8 +54,11 @@ public class SecurityConfig {
                 )
 
                 .authorizeHttpRequests(auth -> auth
-                        // Public auth endpoints (login/refresh/logout).
-                        .requestMatchers("/auth/**").permitAll()
+                        // Public auth endpoints (login/refresh/logout) - but NOT /auth/me
+                        .requestMatchers("/auth/login", "/auth/refresh", "/auth/logout").permitAll()
+
+                        // /auth/me endpoints require authentication (any authenticated user)
+                        .requestMatchers("/auth/me/**").authenticated()
 
                         // Swagger / OpenAPI endpoints are public to allow easy manual testing.
                         .requestMatchers(

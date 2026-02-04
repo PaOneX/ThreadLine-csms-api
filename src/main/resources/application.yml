@@ -13,3 +13,12 @@ security:
     secret-base64: ${JWT_SECRET}
     access-token-expiry-minutes: 15
     refresh-token-expiry-days: 7
+
+# Bootstrap configuration for initial system setup
+# These create the first OWNER account when the database is empty
+app:
+  bootstrap:
+    owner:
+      username: ${APP_BOOTSTRAP_OWNER_USERNAME:owner}
+      email: ${APP_BOOTSTRAP_OWNER_EMAIL:owner@threadline.local}
+      password: ${APP_BOOTSTRAP_OWNER_PASSWORD:}
