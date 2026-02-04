@@ -9,6 +9,9 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface InventoryMapper {
+
+    @org.mapstruct.Mapping(target = "id", ignore = true)
+    @org.mapstruct.Mapping(target = "time", ignore = true)
     InventoryEntity toEntity(InventoryRequestDto requestDto);
 
     InventoryDto toDto(InventoryEntity inventoryEntity);

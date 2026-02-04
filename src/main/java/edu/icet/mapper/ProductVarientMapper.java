@@ -9,6 +9,8 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface ProductVarientMapper {
+
+    @org.mapstruct.Mapping(target = "id", ignore = true)
     ProductVarientEntity toEntity(ProductvarientRequestDto requestDto);
 
     ProductVarientDto toDto(ProductVarientEntity productVarientEntity);

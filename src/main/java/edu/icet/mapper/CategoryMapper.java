@@ -19,8 +19,10 @@ public interface CategoryMapper {
 
     void updateEntityFromDto(CategoryDto dto, @MappingTarget Category entity);
 
+    @org.mapstruct.Mapping(target = "id", ignore = true)
     CategoryDto toDto(CategoryRequestDto requestDto);
 
+    @org.mapstruct.Mapping(target = "id", ignore = true)
     Category toEntity(CategoryRequestDto dto);
 
     void updateEntityFromDto(CategoryRequestDto dto, @MappingTarget Category entity);

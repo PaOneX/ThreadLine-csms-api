@@ -9,6 +9,8 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface SupplierMapper {
+
+    @org.mapstruct.Mapping(target = "id", ignore = true)
     SupplierEntity toEntity(SupplierRequestDto supplierRequestDto);
 
     SupplierDto toDto(SupplierEntity supplierEntity);
