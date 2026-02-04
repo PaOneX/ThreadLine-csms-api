@@ -1,25 +1,27 @@
-package edu.icet.util;
+package edu.icet.util.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.io.Encoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
+import java.security.Key;
 import java.time.Instant;
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
-@Component
-public class JwtUtil {
+@Service
+public class JwtService {
 
-    private final SecretKey key;
+    private final Key key;
     private final long accessTokenExpiryMinutes;
     private final long refreshTokenExpiryDays;
 
-    public JwtUtil(
+    public JwtService(
             @Value("${security.jwt.secret-base64}") String base64Secret,
             @Value("${security.jwt.access-token-expiry-minutes}") long accessTokenExpiryMinutes,
             @Value("${security.jwt.refresh-token-expiry-days}") long refreshTokenExpiryDays
@@ -30,11 +32,15 @@ public class JwtUtil {
         this.refreshTokenExpiryDays = refreshTokenExpiryDays;
     }
 
-    public String generateAccessToken(String username, List<String> roles) {
+    public static String generateBase64SecretForDev() {
+        byte[] keyBytes = Keys.secretKeyFor(io.jsonwebtoken.SignatureAlgorithm.HS256).getEncoded();
+        return Encoders.BASE64.encode(keyBytes);
+    }
+
+    public String generateAccessToken(String username, Set<String> roles) {
         Instant now = Instant.now();
         Instant exp = now.plusSeconds(accessTokenExpiryMinutes * 60);
-        return Jwts.builder()
-                .subject(username)
+        return Jwts.builder().subject(username)
                 .claim("roles", roles)
                 .issuedAt(Date.from(now))
                 .expiration(Date.from(exp))
@@ -44,7 +50,7 @@ public class JwtUtil {
 
     public Claims parseClaims(String token) {
         return Jwts.parser()
-                .verifyWith(key)
+                .verifyWith((SecretKey) key)
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
