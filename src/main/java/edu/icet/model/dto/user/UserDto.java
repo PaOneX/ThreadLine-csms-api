@@ -17,6 +17,7 @@ public class UserDto {
     private String email;
     private String username;
     private Set<String> roles;
+    private Boolean enabled;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }
