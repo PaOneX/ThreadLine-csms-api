@@ -17,4 +17,12 @@ public interface ProductVarientRpository {
     List<ProductVariant> findByProductId(Long productId);
 
     Optional<ProductVariant> findById(@NotNull(message = "variantId must not be null") Long variantId);
+
+    void save(ProductVariant variant);
+
+    boolean existsById(Long id);
+
+    void deleteById(Long id);
+
+    List<ProductVariant> findAll();
 }
