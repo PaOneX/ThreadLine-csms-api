@@ -17,4 +17,6 @@ public interface PaymentRepository {
     void save(Payment payment);
 
     Optional<Payment> findById(Long id);
+
+    List<Payment> findAll();
 }
