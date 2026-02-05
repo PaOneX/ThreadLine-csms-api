@@ -17,4 +17,12 @@ public interface OrdersRepository {
     List<Order> findByStatus(OrderStatus status);
 
     Optional<Order> findById(@NotNull(message = "orderId must not be null") Long orderId);
+
+    void save(Order order);
+
+    boolean existsById(Long id);
+
+    void deleteById(Long id);
+
+    List<Order> findAll();
 }
