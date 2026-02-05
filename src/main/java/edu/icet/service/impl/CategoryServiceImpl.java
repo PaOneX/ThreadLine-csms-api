@@ -7,6 +7,7 @@ import edu.icet.model.entity.Category;
 import edu.icet.repository.CategoryRepository;
 import edu.icet.service.CategoryService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

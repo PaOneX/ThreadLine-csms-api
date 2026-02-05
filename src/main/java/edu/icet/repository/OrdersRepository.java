@@ -5,7 +5,6 @@ import edu.icet.model.entity.User;
 import edu.icet.model.enums.OrderStatus;
 import jakarta.validation.constraints.NotNull;
 
-import java.lang.ScopedValue;
 import java.util.List;
 import java.util.Optional;
 
