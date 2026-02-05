@@ -19,4 +19,8 @@ public interface PaymentRepository {
     Optional<Payment> findById(Long id);
 
     List<Payment> findAll();
+
+    boolean existsById(Long id);
+
+    void deleteById(Long id);
 }

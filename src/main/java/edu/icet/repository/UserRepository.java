@@ -39,4 +39,6 @@ public interface UserRepository {
     void deleteById(Long id);
 
     List<User> findAll();
+
+    int count();
 }

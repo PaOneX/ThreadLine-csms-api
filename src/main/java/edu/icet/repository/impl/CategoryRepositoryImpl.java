@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
+
 public class CategoryRepositoryImpl implements CategoryRepository {
 
     private final JdbcTemplate jdbcTemplate;
