@@ -3,39 +3,37 @@ package edu.icet.model.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
-@Table(name = "products")
+@Table(name = "product_variants")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@ToString(exclude = {"category", "variants"})
-public class Product {
+@ToString(exclude = {"product"})
+public class ProductVariant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 200)
-    private String name;
-
-    @Column(length = 1000)
-    private String description;
-
-    @Column(name = "image_url", length = 500)
-    private String imageUrl;
-
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id")
-    private Category category;
+    @JoinColumn(name = "product_id", nullable = false)
+    private Product product;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    @Builder.Default
-    private List<ProductVariant> variants = new ArrayList<>();
+    @Column(length = 50)
+    private String size;
+
+    @Column(length = 50)
+    private String color;
+
+    @Column(nullable = false, precision = 10, scale = 2)
+    private BigDecimal price;
+
+    @Column(length = 100)
+    private String sku;
 
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;

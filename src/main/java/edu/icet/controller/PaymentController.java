@@ -2,8 +2,8 @@ package edu.icet.controller;
 
 import edu.icet.model.dto.PaymentDto;
 import edu.icet.model.dto.PaymentRequestDto;
+import edu.icet.model.enums.PaymentMode;
 import edu.icet.service.PaymentService;
-import edu.icet.util.PaymentMode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

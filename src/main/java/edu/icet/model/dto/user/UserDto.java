@@ -1,7 +1,7 @@
 package edu.icet.model.dto.user;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import edu.icet.model.entity.Gender;
+import edu.icet.model.enums.Gender;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

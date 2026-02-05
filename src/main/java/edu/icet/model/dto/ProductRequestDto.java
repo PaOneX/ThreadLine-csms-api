@@ -20,6 +20,9 @@ public class ProductRequestDto {
     @Schema(description = "Product description", example = "100% cotton t-shirt")
     private String description;
 
+    @Schema(description = "Product image URL", example = "https://example.com/image.jpg")
+    private String imageUrl;
+
     @Schema(description = "Category reference for the product (provide id)", implementation = CategoryRefDto.class)
     private CategoryRefDto category;
 }

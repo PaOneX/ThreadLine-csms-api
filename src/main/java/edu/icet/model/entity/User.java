@@ -1,5 +1,6 @@
 package edu.icet.model.entity;
 
+import edu.icet.model.enums.Gender;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

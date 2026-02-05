@@ -2,18 +2,27 @@ package edu.icet.mapper;
 
 import edu.icet.model.dto.SupplierDto;
 import edu.icet.model.dto.SupplierRequestDto;
-import edu.icet.model.entity.SupplierEntity;
+import edu.icet.model.entity.Supplier;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface SupplierMapper {
 
-    @org.mapstruct.Mapping(target = "id", ignore = true)
-    SupplierEntity toEntity(SupplierRequestDto supplierRequestDto);
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
+    Supplier toEntity(SupplierRequestDto supplierRequestDto);
 
-    SupplierDto toDto(SupplierEntity supplierEntity);
+    SupplierDto toDto(Supplier supplier);
 
-    List<SupplierDto> toListDto(List<SupplierEntity> supplierEntities);
+    List<SupplierDto> toListDto(List<Supplier> supplierEntities);
+
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
+    void updateEntityFromDto(SupplierRequestDto dto, @MappingTarget Supplier entity);
 }

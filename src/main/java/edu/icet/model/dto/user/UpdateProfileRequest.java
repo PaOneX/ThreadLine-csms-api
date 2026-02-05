@@ -1,6 +1,6 @@
 package edu.icet.model.dto.user;
 
-import edu.icet.model.entity.Gender;
+import edu.icet.model.enums.Gender;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;

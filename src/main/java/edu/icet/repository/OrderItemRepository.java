@@ -1,10 +1,16 @@
 package edu.icet.repository;
 
-import edu.icet.model.entity.OrderItemEntity;
+import edu.icet.model.entity.Order;
+import edu.icet.model.entity.OrderItem;
+import edu.icet.model.entity.ProductVariant;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface OrderItemRepository extends JpaRepository<OrderItemEntity, Long> {
-    List<OrderItemEntity> findAllByOrderId(Long orderId);
+public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
+    List<OrderItem> findAllByOrder(Order order);
+
+    List<OrderItem> findAllByOrderId(Long orderId);
+
+    List<OrderItem> findAllByVariant(ProductVariant variant);
 }

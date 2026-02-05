@@ -2,7 +2,7 @@ package edu.icet.service;
 
 import edu.icet.model.dto.PaymentDto;
 import edu.icet.model.dto.PaymentRequestDto;
-import edu.icet.util.PaymentMode;
+import edu.icet.model.enums.PaymentMode;
 
 import java.util.List;
 

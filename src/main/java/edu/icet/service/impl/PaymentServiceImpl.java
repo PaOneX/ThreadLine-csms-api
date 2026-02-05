@@ -3,12 +3,15 @@ package edu.icet.service.impl;
 import edu.icet.mapper.PaymentMapper;
 import edu.icet.model.dto.PaymentDto;
 import edu.icet.model.dto.PaymentRequestDto;
-import edu.icet.model.entity.PaymentEntity;
+import edu.icet.model.entity.Invoice;
+import edu.icet.model.entity.Payment;
+import edu.icet.model.enums.PaymentMode;
+import edu.icet.repository.InvoiceRepository;
 import edu.icet.repository.PaymentRepository;
 import edu.icet.service.PaymentService;
-import edu.icet.util.PaymentMode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -16,42 +19,64 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PaymentServiceImpl implements PaymentService {
     private final PaymentRepository repository;
+    private final InvoiceRepository invoiceRepository;
     private final PaymentMapper mapper;
 
     @Override
+    @Transactional
     public void createPayment(PaymentRequestDto requestDto) {
-        repository.save(mapper.toEntity(requestDto));
+        Invoice invoice = invoiceRepository.findById(requestDto.getInvoiceId())
+                .orElseThrow(() -> new RuntimeException("Invoice not found"));
+
+        Payment payment = mapper.toEntity(requestDto);
+        payment.setInvoice(invoice);
+        repository.save(payment);
     }
 
     @Override
+    @Transactional
     public void updatePayment(Long id, PaymentRequestDto requestDto) {
-        PaymentEntity paymentEntity = repository.findById(id).orElseThrow(() -> new RuntimeException("Payment not found"));
-        paymentEntity.setPaymentMode(requestDto.getPaymentMode());
-        paymentEntity.setAmount(requestDto.getAmount());
-        paymentEntity.setTransactionId(requestDto.getTransactionId());
-        repository.save(paymentEntity);
+        Payment payment = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Payment not found"));
+
+        if (requestDto.getInvoiceId() != null &&
+                !requestDto.getInvoiceId().equals(payment.getInvoice().getId())) {
+            Invoice invoice = invoiceRepository.findById(requestDto.getInvoiceId())
+                    .orElseThrow(() -> new RuntimeException("Invoice not found"));
+            payment.setInvoice(invoice);
+        }
+
+        mapper.updateEntityFromDto(requestDto, payment);
+        repository.save(payment);
     }
 
     @Override
     public void deletePayment(Long id) {
+        if (!repository.existsById(id)) {
+            throw new RuntimeException("Payment not found");
+        }
         repository.deleteById(id);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<PaymentDto> getPayments() {
-        List<PaymentEntity> paymentEntities = repository.findAll();
+        List<Payment> paymentEntities = repository.findAll();
         return mapper.toDtoList(paymentEntities);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public PaymentDto getPaymentBNyId(Long id) {
-        PaymentEntity paymentEntity = repository.findById(id).orElseThrow(() -> new RuntimeException("Payment not found"));
-        return mapper.toDto(paymentEntity);
+        Payment payment = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Payment not found"));
+        return mapper.toDto(payment);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<PaymentDto> getPaymentMode(PaymentMode paymentMode) {
-        List<PaymentEntity> paymentEntity = repository.findByPaymentMode(paymentMode);
-        return mapper.toDtoList(paymentEntity);
+        List<Payment> payment = repository.findByPaymentMode(paymentMode);
+        return mapper.toDtoList(payment);
     }
 }

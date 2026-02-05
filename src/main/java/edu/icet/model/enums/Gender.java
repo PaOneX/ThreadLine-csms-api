@@ -1,4 +1,4 @@
-package edu.icet.model.entity;
+package edu.icet.model.enums;
 
 /**
  * Gender enumeration for user profiles.

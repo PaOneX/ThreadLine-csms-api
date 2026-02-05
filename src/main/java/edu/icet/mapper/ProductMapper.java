@@ -14,12 +14,15 @@ import java.util.List;
 @Mapper(componentModel = "spring", uses = {CategoryMapper.class}, nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface ProductMapper {
 
+    @Mapping(target = "category", ignore = true)
+    @Mapping(target = "variants", ignore = true)
     Product toEntity(ProductDto productDto);
 
     ProductDto toDto(Product product);
 
     List<ProductDto> toDtoList(List<Product> productList);
 
+    @Mapping(target = "category", ignore = true)
     void updateEntityFromDto(ProductDto dto, @MappingTarget Product entity);
 
     @Mapping(target = "id", ignore = true)
@@ -27,12 +30,19 @@ public interface ProductMapper {
     @Mapping(target = "description", source = "description")
     @Mapping(target = "category.id", source = "category.id")
     @Mapping(target = "category.name", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
     ProductDto toDto(ProductRequestDto requestDto);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "category", source = "category")
+    @Mapping(target = "variants", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
     Product toEntity(ProductRequestDto requestDto);
 
+    @Mapping(target = "category", ignore = true)
+    @Mapping(target = "variants", ignore = true)
     void updateEntityFromDto(ProductRequestDto dto, @MappingTarget Product entity);
 
     /**

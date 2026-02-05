@@ -13,7 +13,11 @@ import lombok.NoArgsConstructor;
 @Schema(name = "CategoryRequestDto", description = "Category data for create/update requests")
 public class CategoryRequestDto {
     @NotBlank(message = "name must not be blank")
-    @Size(max = 255, message = "name must be at most 255 characters")
+    @Size(max = 100, message = "name must be at most 100 characters")
     @Schema(description = "Category name", example = "Shirts")
     private String name;
+
+    @Size(max = 500, message = "description must be at most 500 characters")
+    @Schema(description = "Category description", example = "All types of shirts")
+    private String description;
 }

@@ -28,11 +28,9 @@ public class SecurityConfig {
 
     private static final String API_ANY = "/api/**";
     private static final String ADMIN = "ADMIN";
-
+    private final JwtAuthenticationFilter jwtAuthFilter;
     @Value("${app.security.permit-all:false}")
     private boolean permitAll;
-
-    private final JwtAuthenticationFilter jwtAuthFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) {
