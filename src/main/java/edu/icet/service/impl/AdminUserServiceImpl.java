@@ -32,7 +32,6 @@ public class AdminUserServiceImpl implements AdminUserService {
     private final UserMapper userMapper;
 
     @Override
-    @Transactional
     public UserDto createUser(AdminCreateUserRequest request) {
         if (userRepository.existsByUsernameIgnoreCase(request.getUsername())) {
             throw new IllegalArgumentException("Username already taken");
@@ -59,7 +58,6 @@ public class AdminUserServiceImpl implements AdminUserService {
     }
 
     @Override
-    @Transactional
     public UserDto updateUserRoles(Long userId, UpdateUserRolesRequest request) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException(userId));
@@ -72,7 +70,6 @@ public class AdminUserServiceImpl implements AdminUserService {
     }
 
     @Override
-    @Transactional
     public UserDto enableUser(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException(userId));
@@ -83,7 +80,6 @@ public class AdminUserServiceImpl implements AdminUserService {
     }
 
     @Override
-    @Transactional
     public UserDto disableUser(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException(userId));
@@ -94,7 +90,6 @@ public class AdminUserServiceImpl implements AdminUserService {
     }
 
     @Override
-    @Transactional
     public Page<UserDto> findUsers(UserSearchCriteria criteria, Pageable pageable) {
         Page<User> userPage;
 

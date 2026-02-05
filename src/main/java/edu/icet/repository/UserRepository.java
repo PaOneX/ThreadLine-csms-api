@@ -30,5 +30,9 @@ public interface UserRepository {
             Pageable pageable
     );
 
-    <T> ScopedValue<T> findById(Long userId);
+    Optional<User> findById(Long userId);
+
+    User save(User user);
+
+    boolean existsById(Long userId);
 }
