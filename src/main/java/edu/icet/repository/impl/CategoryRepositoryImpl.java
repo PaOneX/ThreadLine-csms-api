@@ -28,8 +28,8 @@ public class CategoryRepositoryImpl implements CategoryRepository {
     @Override
     public Category save(Category entity) {
         entity.onCreate();
-        String sql = "INSERT INTO `category` (`name`,`description`) VALUES (?,?)";
-        return jdbcTemplate.update(sql,entity.getName(), entity.getDescription())>0 ? entity : null;
+        String sql = "INSERT INTO categories (name, description) VALUES (?,?)";
+        return jdbcTemplate.update(sql, entity.getName(), entity.getDescription()) > 0 ? entity : null;
     }
 
     @Override

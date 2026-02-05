@@ -38,7 +38,7 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public User save(User user) {
         user.onCreate();
-        String sql = "INSERT INTO `users` (`email`,`username`,`full_name`,`gender`,`password`,`enabled`) VALUES (?,?,?,?,?,?)";
+        String sql = "INSERT INTO users (email, username, full_name, gender, password, enabled) VALUES (?,?,?,?,?,?)";
         int result = jdbcTemplate.update(sql,
                 user.getEmail(),
                 user.getUsername(),
