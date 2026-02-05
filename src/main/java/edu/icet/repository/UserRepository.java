@@ -4,7 +4,7 @@ import edu.icet.model.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.lang.ScopedValue;
+import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository {
@@ -35,4 +35,8 @@ public interface UserRepository {
     User save(User user);
 
     boolean existsById(Long userId);
+
+    void deleteById(Long id);
+
+    List<User> findAll();
 }
