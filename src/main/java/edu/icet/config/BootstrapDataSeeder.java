@@ -11,7 +11,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -57,7 +56,6 @@ public class BootstrapDataSeeder implements CommandLineRunner {
     private String ownerPassword;
 
     @Override
-    @Transactional
     public void run(String... args) {
         log.info("=== Bootstrap Data Seeder Starting ===");
 

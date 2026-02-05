@@ -1,7 +1,17 @@
 package edu.icet.repository;
 
+import edu.icet.model.dto.CategoryDto;
 import edu.icet.model.entity.Category;
-import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface CategoryRepository extends JpaRepository<Category, Long> {
+import java.util.List;
+import java.util.Optional;
+
+public interface CategoryRepository {
+    List<Category> findAll();
+
+    Optional<Category> findById(Long id);
+
+    Category save(Category entity);
+
+    boolean existsById(Long id);
 }
