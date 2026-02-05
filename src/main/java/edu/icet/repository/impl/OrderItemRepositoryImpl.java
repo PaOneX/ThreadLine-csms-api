@@ -5,6 +5,7 @@ import edu.icet.model.entity.OrderItem;
 import edu.icet.model.entity.ProductVariant;
 import edu.icet.repository.OrderItemRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.Optional;
 @Repository
 @RequiredArgsConstructor
 public class OrderItemRepositoryImpl implements OrderItemRepository {
-
+    private final JdbcTemplate jdbcTemplate;
     @Override
     public List<OrderItem> findAllByOrder(Order order) {
         return List.of();
