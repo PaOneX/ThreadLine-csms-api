@@ -3,13 +3,17 @@ package edu.icet.repository.impl;
 import edu.icet.model.entity.Inventory;
 import edu.icet.model.entity.ProductVariant;
 import edu.icet.repository.InventoryRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
+@RequiredArgsConstructor
 @Repository
 public class InventoryRepositoryImpl implements InventoryRepository {
+    private final JdbcTemplate jdbcTemplate;
     @Override
     public Optional<Inventory> findByVariant(ProductVariant variant) {
         return Optional.empty();
