@@ -14,4 +14,6 @@ public interface CategoryRepository {
     Category save(Category entity);
 
     boolean existsById(Long id);
+
+    void deleteById(Long id);
 }
