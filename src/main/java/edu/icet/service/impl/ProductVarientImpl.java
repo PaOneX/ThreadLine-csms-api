@@ -1,6 +1,7 @@
 package edu.icet.service.impl;
 
 import edu.icet.exception.ProductNotFoundException;
+import edu.icet.exception.ProductVariantNotFoundException;
 import edu.icet.mapper.ProductVarientMapper;
 import edu.icet.model.dto.ProductVarientDto;
 import edu.icet.model.dto.ProductvarientRequestDto;
@@ -37,7 +38,7 @@ public class ProductVarientImpl implements ProductVarientService {
     @Transactional
     public void updateProductVarient(Long id, ProductvarientRequestDto requestDto) {
         ProductVariant productVariant = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product Variant Not Found"));
+                .orElseThrow(() -> new ProductVariantNotFoundException(id));
 
         if (requestDto.getProductId() != null &&
                 !requestDto.getProductId().equals(productVariant.getProduct().getId())) {
@@ -53,7 +54,7 @@ public class ProductVarientImpl implements ProductVarientService {
     @Override
     public void deleteProductVarient(Long id) {
         if (!repository.existsById(id)) {
-            throw new RuntimeException("Product Variant Not Found");
+            throw new ProductVariantNotFoundException(id);
         }
         repository.deleteById(id);
     }
@@ -69,7 +70,7 @@ public class ProductVarientImpl implements ProductVarientService {
     @Transactional(readOnly = true)
     public ProductVarientDto findProductById(Long id) {
         ProductVariant productVariant = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product Variant Not Found"));
+                .orElseThrow(() -> new ProductVariantNotFoundException(id));
         return mapper.toDto(productVariant);
     }
 

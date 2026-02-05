@@ -1,5 +1,7 @@
 package edu.icet.service.impl;
 
+import edu.icet.exception.InvoiceNotFoundException;
+import edu.icet.exception.OrderNotFoundException;
 import edu.icet.mapper.InvoiceMapper;
 import edu.icet.model.dto.InvoiceDto;
 import edu.icet.model.dto.InvoiceRequestDto;
@@ -26,7 +28,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     @Transactional
     public void createInvoice(InvoiceRequestDto requestDto) {
         Order order = ordersRepository.findById(requestDto.getOrderId())
-                .orElseThrow(() -> new RuntimeException("Order not found"));
+                .orElseThrow(() -> new OrderNotFoundException(requestDto.getOrderId()));
 
         Invoice invoice = mapper.toEntity(requestDto);
         invoice.setOrder(order);
@@ -43,12 +45,12 @@ public class InvoiceServiceImpl implements InvoiceService {
     @Transactional
     public void updateInvoice(Long id, InvoiceRequestDto requestDto) {
         Invoice invoice = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Invoice not found"));
+                .orElseThrow(() -> new InvoiceNotFoundException(id));
 
         if (requestDto.getOrderId() != null &&
                 !requestDto.getOrderId().equals(invoice.getOrder().getId())) {
             Order order = ordersRepository.findById(requestDto.getOrderId())
-                    .orElseThrow(() -> new RuntimeException("Order not found"));
+                    .orElseThrow(() -> new OrderNotFoundException(requestDto.getOrderId()));
             invoice.setOrder(order);
         }
 
@@ -59,7 +61,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     @Override
     public void deleteInvoice(Long id) {
         if (!repository.existsById(id)) {
-            throw new RuntimeException("Invoice not found");
+            throw new InvoiceNotFoundException(id);
         }
         repository.deleteById(id);
     }
@@ -75,7 +77,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     @Transactional(readOnly = true)
     public InvoiceDto getInvoiceById(Long id) {
         Invoice invoice = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Invoice not found"));
+                .orElseThrow(() -> new InvoiceNotFoundException(id));
         return mapper.toDto(invoice);
     }
 }

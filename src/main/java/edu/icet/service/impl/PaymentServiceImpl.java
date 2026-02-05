@@ -1,5 +1,7 @@
 package edu.icet.service.impl;
 
+import edu.icet.exception.InvoiceNotFoundException;
+import edu.icet.exception.PaymentNotFoundException;
 import edu.icet.mapper.PaymentMapper;
 import edu.icet.model.dto.PaymentDto;
 import edu.icet.model.dto.PaymentRequestDto;
@@ -26,7 +28,7 @@ public class PaymentServiceImpl implements PaymentService {
     @Transactional
     public void createPayment(PaymentRequestDto requestDto) {
         Invoice invoice = invoiceRepository.findById(requestDto.getInvoiceId())
-                .orElseThrow(() -> new RuntimeException("Invoice not found"));
+                .orElseThrow(() -> new InvoiceNotFoundException(requestDto.getInvoiceId()));
 
         Payment payment = mapper.toEntity(requestDto);
         payment.setInvoice(invoice);
@@ -37,12 +39,12 @@ public class PaymentServiceImpl implements PaymentService {
     @Transactional
     public void updatePayment(Long id, PaymentRequestDto requestDto) {
         Payment payment = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Payment not found"));
+                .orElseThrow(() -> new PaymentNotFoundException(id));
 
         if (requestDto.getInvoiceId() != null &&
                 !requestDto.getInvoiceId().equals(payment.getInvoice().getId())) {
             Invoice invoice = invoiceRepository.findById(requestDto.getInvoiceId())
-                    .orElseThrow(() -> new RuntimeException("Invoice not found"));
+                    .orElseThrow(() -> new InvoiceNotFoundException(requestDto.getInvoiceId()));
             payment.setInvoice(invoice);
         }
 
@@ -53,7 +55,7 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public void deletePayment(Long id) {
         if (!repository.existsById(id)) {
-            throw new RuntimeException("Payment not found");
+            throw new PaymentNotFoundException(id);
         }
         repository.deleteById(id);
     }
@@ -69,7 +71,7 @@ public class PaymentServiceImpl implements PaymentService {
     @Transactional(readOnly = true)
     public PaymentDto getPaymentBNyId(Long id) {
         Payment payment = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Payment not found"));
+                .orElseThrow(() -> new PaymentNotFoundException(id));
         return mapper.toDto(payment);
     }
 

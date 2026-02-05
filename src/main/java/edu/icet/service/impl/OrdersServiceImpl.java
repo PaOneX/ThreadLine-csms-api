@@ -1,5 +1,8 @@
 package edu.icet.service.impl;
 
+import edu.icet.exception.OrderNotFoundException;
+import edu.icet.exception.ProductVariantNotFoundException;
+import edu.icet.exception.UserNotFoundException;
 import edu.icet.mapper.OrderMapper;
 import edu.icet.model.dto.OrderItemRequestDto;
 import edu.icet.model.dto.OrderRequestDto;
@@ -36,7 +39,7 @@ public class OrdersServiceImpl implements OrderService {
         // Set user if provided
         if (orderRequestDto.getUserId() != null) {
             User user = userRepository.findById(orderRequestDto.getUserId())
-                    .orElseThrow(() -> new RuntimeException("User not found"));
+                    .orElseThrow(() -> new UserNotFoundException(orderRequestDto.getUserId()));
             order.setUser(user);
         }
 
@@ -45,7 +48,7 @@ public class OrdersServiceImpl implements OrderService {
             List<OrderItem> items = new ArrayList<>();
             for (OrderItemRequestDto itemDto : orderRequestDto.getItems()) {
                 ProductVariant variant = variantRepository.findById(itemDto.getVariantId())
-                        .orElseThrow(() -> new RuntimeException("Product Variant not found: " + itemDto.getVariantId()));
+                        .orElseThrow(() -> new ProductVariantNotFoundException(itemDto.getVariantId()));
 
                 OrderItem item = OrderItem.builder()
                         .order(order)
@@ -65,11 +68,11 @@ public class OrdersServiceImpl implements OrderService {
     @Transactional
     public void updateOrder(Long id, OrderRequestDto orderRequestDto) {
         Order order = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Order not found"));
+                .orElseThrow(() -> new OrderNotFoundException(id));
 
         if (orderRequestDto.getUserId() != null) {
             User user = userRepository.findById(orderRequestDto.getUserId())
-                    .orElseThrow(() -> new RuntimeException("User not found"));
+                    .orElseThrow(() -> new UserNotFoundException(orderRequestDto.getUserId()));
             order.setUser(user);
         }
 
@@ -87,7 +90,7 @@ public class OrdersServiceImpl implements OrderService {
     @Override
     public void deleteOrder(Long id) {
         if (!repository.existsById(id)) {
-            throw new RuntimeException("Order not found");
+            throw new OrderNotFoundException(id);
         }
         repository.deleteById(id);
     }
@@ -103,7 +106,7 @@ public class OrdersServiceImpl implements OrderService {
     @Transactional(readOnly = true)
     public OrdersDto findById(Long id) {
         Order order = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Order not found"));
+                .orElseThrow(() -> new OrderNotFoundException(id));
         return mapper.toDto(order);
     }
 }
