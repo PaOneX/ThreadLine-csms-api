@@ -30,8 +30,13 @@ public class OrdersRepositoryImpl implements OrdersRepository {
     }
 
     @Override
-    public Optional<Order> findById(Long orderId) {
+    public Optional<Order> findById() {
         return Optional.empty();
+    }
+
+    @Override
+    public Optional<Order> findById(Long orderId) {
+        return null;
     }
 
     @Override

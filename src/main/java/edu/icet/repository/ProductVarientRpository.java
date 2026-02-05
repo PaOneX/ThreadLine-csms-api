@@ -14,7 +14,7 @@ public interface ProductVarientRpository {
 
     List<ProductVariant> findByProduct(Product product);
 
-    List<ProductVariant> findByProductId(Long productId);
+    Optional<ProductVariant> findByProductId(Long productId);
 
     Optional<ProductVariant> findById(@NotNull(message = "variantId must not be null") Long variantId);
 

@@ -13,18 +13,18 @@
 
 -- 1. Roles Table
 CREATE TABLE IF NOT EXISTS roles (
-    id BIGINT AUTO_INCREMENT,
-    name VARCHAR(50) NOT NULL,
+                                     id BIGINT AUTO_INCREMENT,
+                                     name VARCHAR(50) NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT pk_roles PRIMARY KEY (id),
     CONSTRAINT uk_roles_name UNIQUE (name)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- 2. Users Table
 CREATE TABLE IF NOT EXISTS users (
-    id BIGINT AUTO_INCREMENT,
-    email VARCHAR(255) NOT NULL,
+                                     id BIGINT AUTO_INCREMENT,
+                                     email VARCHAR(255) NOT NULL,
     username VARCHAR(100) NOT NULL,
     full_name VARCHAR(255) NOT NULL,
     gender ENUM('MALE', 'FEMALE', 'OTHER'),
@@ -36,23 +36,23 @@ CREATE TABLE IF NOT EXISTS users (
     CONSTRAINT pk_users PRIMARY KEY (id),
     CONSTRAINT uk_users_email UNIQUE (email),
     CONSTRAINT uk_users_username UNIQUE (username)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- 3. User-Role Junction Table (Many-to-Many relationship)
 CREATE TABLE IF NOT EXISTS user_roles (
-    user_id BIGINT NOT NULL,
-    role_id BIGINT NOT NULL,
-    assigned_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                                          user_id BIGINT NOT NULL,
+                                          role_id BIGINT NOT NULL,
+                                          assigned_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    CONSTRAINT pk_user_roles PRIMARY KEY (user_id, role_id),
+                                          CONSTRAINT pk_user_roles PRIMARY KEY (user_id, role_id),
     CONSTRAINT fk_user_roles_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     CONSTRAINT fk_user_roles_role FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- 4. Refresh Tokens Table
 CREATE TABLE IF NOT EXISTS refresh_tokens (
-    id BIGINT AUTO_INCREMENT,
-    token VARCHAR(500) NOT NULL,
+                                              id BIGINT AUTO_INCREMENT,
+                                              token VARCHAR(500) NOT NULL,
     user_id BIGINT NOT NULL,
     expiry_date TIMESTAMP NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -60,24 +60,24 @@ CREATE TABLE IF NOT EXISTS refresh_tokens (
     CONSTRAINT pk_refresh_tokens PRIMARY KEY (id),
     CONSTRAINT uk_refresh_tokens_token UNIQUE (token),
     CONSTRAINT fk_refresh_tokens_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- 5. Categories Table
 CREATE TABLE IF NOT EXISTS categories (
-    id BIGINT AUTO_INCREMENT,
-    name VARCHAR(100) NOT NULL,
+                                          id BIGINT AUTO_INCREMENT,
+                                          name VARCHAR(100) NOT NULL,
     description TEXT,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
     CONSTRAINT pk_categories PRIMARY KEY (id),
     CONSTRAINT uk_categories_name UNIQUE (name)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- 6. Products Table
 CREATE TABLE IF NOT EXISTS products (
-    id BIGINT AUTO_INCREMENT,
-    name VARCHAR(255) NOT NULL,
+                                        id BIGINT AUTO_INCREMENT,
+                                        name VARCHAR(255) NOT NULL,
     description TEXT,
     image_url VARCHAR(500),
     category_id BIGINT,
@@ -86,13 +86,13 @@ CREATE TABLE IF NOT EXISTS products (
 
     CONSTRAINT pk_products PRIMARY KEY (id),
     CONSTRAINT fk_products_category FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE SET NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- 7. Product Variants Table
 CREATE TABLE IF NOT EXISTS product_variants (
-    id BIGINT AUTO_INCREMENT,
-    product_id BIGINT NOT NULL,
-    size VARCHAR(50),
+                                                id BIGINT AUTO_INCREMENT,
+                                                product_id BIGINT NOT NULL,
+                                                size VARCHAR(50),
     color VARCHAR(50),
     price DECIMAL(12, 2) NOT NULL,
     sku VARCHAR(100),
@@ -103,12 +103,12 @@ CREATE TABLE IF NOT EXISTS product_variants (
     CONSTRAINT uk_product_variants_sku UNIQUE (sku),
     CONSTRAINT fk_product_variants_product FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE,
     CONSTRAINT chk_product_variants_price CHECK (price >= 0)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- 8. Suppliers Table
 CREATE TABLE IF NOT EXISTS suppliers (
-    id BIGINT AUTO_INCREMENT,
-    name VARCHAR(255) NOT NULL,
+                                         id BIGINT AUTO_INCREMENT,
+                                         name VARCHAR(255) NOT NULL,
     email VARCHAR(255),
     phone VARCHAR(20),
     address TEXT,
@@ -117,28 +117,28 @@ CREATE TABLE IF NOT EXISTS suppliers (
 
     CONSTRAINT pk_suppliers PRIMARY KEY (id),
     CONSTRAINT uk_suppliers_email UNIQUE (email)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- 9. Inventories Table
 CREATE TABLE IF NOT EXISTS inventories (
-    id BIGINT AUTO_INCREMENT,
-    variant_id BIGINT NOT NULL,
-    quantity INT NOT NULL DEFAULT 0,
-    last_restocked_at TIMESTAMP NULL,
-    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                                           id BIGINT AUTO_INCREMENT,
+                                           variant_id BIGINT NOT NULL,
+                                           quantity INT NOT NULL DEFAULT 0,
+                                           last_restocked_at TIMESTAMP NULL,
+                                           created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                                           updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
-    CONSTRAINT pk_inventories PRIMARY KEY (id),
+                                           CONSTRAINT pk_inventories PRIMARY KEY (id),
     CONSTRAINT uk_inventories_variant UNIQUE (variant_id),
     CONSTRAINT fk_inventories_variant FOREIGN KEY (variant_id) REFERENCES product_variants(id) ON DELETE CASCADE,
     CONSTRAINT chk_inventories_quantity CHECK (quantity >= 0)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- 10. Orders Table
 CREATE TABLE IF NOT EXISTS orders (
-    id BIGINT AUTO_INCREMENT,
-    user_id BIGINT NOT NULL,
-    status ENUM('PENDING', 'PROCESSING', 'SHIPPED', 'DELIVERED', 'CANCELLED') NOT NULL DEFAULT 'PENDING',
+                                      id BIGINT AUTO_INCREMENT,
+                                      user_id BIGINT NOT NULL,
+                                      status ENUM('PENDING', 'PROCESSING', 'SHIPPED', 'DELIVERED', 'CANCELLED') NOT NULL DEFAULT 'PENDING',
     total_amount DECIMAL(12, 2) NOT NULL DEFAULT 0.00,
     order_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -147,15 +147,15 @@ CREATE TABLE IF NOT EXISTS orders (
     CONSTRAINT pk_orders PRIMARY KEY (id),
     CONSTRAINT fk_orders_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     CONSTRAINT chk_orders_total_amount CHECK (total_amount >= 0)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- 11. Order Items Table
 CREATE TABLE IF NOT EXISTS order_items (
-    id BIGINT AUTO_INCREMENT,
-    order_id BIGINT NOT NULL,
-    variant_id BIGINT NOT NULL,
-    quantity INT NOT NULL,
-    unit_price DECIMAL(12, 2) NOT NULL,
+                                           id BIGINT AUTO_INCREMENT,
+                                           order_id BIGINT NOT NULL,
+                                           variant_id BIGINT NOT NULL,
+                                           quantity INT NOT NULL,
+                                           unit_price DECIMAL(12, 2) NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT pk_order_items PRIMARY KEY (id),
@@ -163,13 +163,13 @@ CREATE TABLE IF NOT EXISTS order_items (
     CONSTRAINT fk_order_items_variant FOREIGN KEY (variant_id) REFERENCES product_variants(id) ON DELETE RESTRICT,
     CONSTRAINT chk_order_items_quantity CHECK (quantity > 0),
     CONSTRAINT chk_order_items_unit_price CHECK (unit_price >= 0)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- 12. Invoices Table
 CREATE TABLE IF NOT EXISTS invoices (
-    id BIGINT AUTO_INCREMENT,
-    order_id BIGINT NOT NULL,
-    invoice_number VARCHAR(50) NOT NULL,
+                                        id BIGINT AUTO_INCREMENT,
+                                        order_id BIGINT NOT NULL,
+                                        invoice_number VARCHAR(50) NOT NULL,
     tax_amount DECIMAL(12, 2) NOT NULL DEFAULT 0.00,
     net_amount DECIMAL(12, 2) NOT NULL,
     invoice_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -183,13 +183,13 @@ CREATE TABLE IF NOT EXISTS invoices (
     CONSTRAINT fk_invoices_order FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
     CONSTRAINT chk_invoices_tax_amount CHECK (tax_amount >= 0),
     CONSTRAINT chk_invoices_net_amount CHECK (net_amount >= 0)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- 13. Payments Table
 CREATE TABLE IF NOT EXISTS payments (
-    id BIGINT AUTO_INCREMENT,
-    invoice_id BIGINT NOT NULL,
-    transaction_id VARCHAR(100),
+                                        id BIGINT AUTO_INCREMENT,
+                                        invoice_id BIGINT NOT NULL,
+                                        transaction_id VARCHAR(100),
     payment_mode ENUM('CARD', 'CASH') NOT NULL,
     amount DECIMAL(12, 2) NOT NULL,
     payment_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -199,7 +199,7 @@ CREATE TABLE IF NOT EXISTS payments (
     CONSTRAINT uk_payments_transaction UNIQUE (transaction_id),
     CONSTRAINT fk_payments_invoice FOREIGN KEY (invoice_id) REFERENCES invoices(id) ON DELETE CASCADE,
     CONSTRAINT chk_payments_amount CHECK (amount > 0)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
 -- ====================================
@@ -263,9 +263,9 @@ CREATE INDEX idx_payments_payment_date ON payments(payment_date);
 
 -- Default roles for the system
 INSERT INTO roles (name) VALUES
-    ('ROLE_ADMIN'),
-    ('ROLE_MANAGER'),
-    ('ROLE_USER');
+                             ('ROLE_ADMIN'),
+                             ('ROLE_MANAGER'),
+                             ('ROLE_USER');
 
 -- ====================================
 -- Comments for Documentation

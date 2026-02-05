@@ -30,8 +30,8 @@ public class ProductVariantRepositoryImpl implements ProductVarientRpository {
     }
 
     @Override
-    public List<ProductVariant> findByProductId(Long productId) {
-        return List.of();
+    public Optional<ProductVariant> findByProductId(Long productId) {
+        return null;
     }
 
     @Override
