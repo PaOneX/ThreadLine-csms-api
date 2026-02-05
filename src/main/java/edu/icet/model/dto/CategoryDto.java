@@ -16,7 +16,11 @@ public class CategoryDto {
     private Long id;
 
     @NotBlank(message = "name must not be blank")
-    @Size(max = 255, message = "name must be at most 255 characters")
+    @Size(max = 100, message = "name must be at most 100 characters")
     @Schema(description = "Category name", example = "Shirts", required = true)
     private String name;
+
+    @Size(max = 500, message = "description must be at most 500 characters")
+    @Schema(description = "Category description", example = "All types of shirts")
+    private String description;
 }

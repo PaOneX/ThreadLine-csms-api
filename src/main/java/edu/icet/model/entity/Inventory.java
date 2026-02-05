@@ -4,38 +4,29 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
-@Table(name = "products")
+@Table(name = "inventory")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@ToString(exclude = {"category", "variants"})
-public class Product {
+@ToString(exclude = {"variant"})
+public class Inventory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 200)
-    private String name;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "variant_id", nullable = false, unique = true)
+    private ProductVariant variant;
 
-    @Column(length = 1000)
-    private String description;
+    @Column(nullable = false)
+    private Integer quantity;
 
-    @Column(name = "image_url", length = 500)
-    private String imageUrl;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id")
-    private Category category;
-
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    @Builder.Default
-    private List<ProductVariant> variants = new ArrayList<>();
+    @Column(name = "last_restocked")
+    private LocalDateTime lastRestocked;
 
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;

@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -23,6 +25,15 @@ public class ProductDto {
     @Schema(description = "Product description", example = "100% cotton t-shirt")
     private String description;
 
-    @Schema(description = "Category for the product (provide id)", implementation = CategoryDto.class)
+    @Schema(description = "Product image URL", example = "https://example.com/image.jpg")
+    private String imageUrl;
+
+    @Schema(description = "Category for the product", implementation = CategoryDto.class)
     private CategoryDto category;
+
+    @Schema(description = "Product creation timestamp")
+    private LocalDateTime createdAt;
+
+    @Schema(description = "Product last update timestamp")
+    private LocalDateTime updatedAt;
 }
