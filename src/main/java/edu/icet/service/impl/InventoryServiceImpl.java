@@ -1,5 +1,7 @@
 package edu.icet.service.impl;
 
+import edu.icet.exception.InventoryNotFoundException;
+import edu.icet.exception.ProductVariantNotFoundException;
 import edu.icet.mapper.InventoryMapper;
 import edu.icet.model.dto.InventoryDto;
 import edu.icet.model.dto.InventoryRequestDto;
@@ -27,7 +29,7 @@ public class InventoryServiceImpl implements InventryService {
     @Transactional
     public void addInventry(InventoryRequestDto requestDto) {
         ProductVariant variant = variantRepository.findById(requestDto.getVariantId())
-                .orElseThrow(() -> new RuntimeException("Product Variant not found"));
+                .orElseThrow(() -> new ProductVariantNotFoundException(requestDto.getVariantId()));
 
         Inventory inventory = mapper.toEntity(requestDto);
         inventory.setVariant(variant);
@@ -39,12 +41,12 @@ public class InventoryServiceImpl implements InventryService {
     @Transactional
     public void updateInventory(Long id, InventoryRequestDto requestDto) {
         Inventory entity = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Inventory not found"));
+                .orElseThrow(() -> new InventoryNotFoundException(id));
 
         if (requestDto.getVariantId() != null &&
                 !requestDto.getVariantId().equals(entity.getVariant().getId())) {
             ProductVariant variant = variantRepository.findById(requestDto.getVariantId())
-                    .orElseThrow(() -> new RuntimeException("Product Variant not found"));
+                    .orElseThrow(() -> new ProductVariantNotFoundException(requestDto.getVariantId()));
             entity.setVariant(variant);
         }
 
@@ -56,7 +58,7 @@ public class InventoryServiceImpl implements InventryService {
     @Override
     public void deleteInventory(Long id) {
         if (!repository.existsById(id)) {
-            throw new RuntimeException("Inventory not found");
+            throw new InventoryNotFoundException(id);
         }
         repository.deleteById(id);
     }

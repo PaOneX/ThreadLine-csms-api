@@ -1,5 +1,6 @@
 package edu.icet.service.impl;
 
+import edu.icet.exception.SupplierNotFoundException;
 import edu.icet.mapper.SupplierMapper;
 import edu.icet.model.dto.SupplierDto;
 import edu.icet.model.dto.SupplierRequestDto;
@@ -28,7 +29,7 @@ public class SupplierServiceImpl implements SupplierService {
     @Transactional
     public void updateSupplier(Long id, SupplierRequestDto supplierRequestDto) {
         Supplier supplier = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Supplier not found"));
+                .orElseThrow(() -> new SupplierNotFoundException(id));
         mapper.updateEntityFromDto(supplierRequestDto, supplier);
         repository.save(supplier);
     }
@@ -36,7 +37,7 @@ public class SupplierServiceImpl implements SupplierService {
     @Override
     public void deleteSupplier(Long id) {
         if (!repository.existsById(id)) {
-            throw new RuntimeException("Supplier not found");
+            throw new SupplierNotFoundException(id);
         }
         repository.deleteById(id);
     }
@@ -52,7 +53,7 @@ public class SupplierServiceImpl implements SupplierService {
     @Transactional(readOnly = true)
     public SupplierDto getSupplierById(Long id) {
         Supplier supplier = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Supplier not found"));
+                .orElseThrow(() -> new SupplierNotFoundException(id));
         return mapper.toDto(supplier);
     }
 }

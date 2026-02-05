@@ -1,5 +1,9 @@
 package edu.icet.service.impl;
 
+import edu.icet.exception.BadRequestException;
+import edu.icet.exception.OrderItemNotFoundException;
+import edu.icet.exception.OrderNotFoundException;
+import edu.icet.exception.ProductVariantNotFoundException;
 import edu.icet.mapper.OrderItemMapper;
 import edu.icet.model.dto.OrderItemDto;
 import edu.icet.model.dto.OrderItemRequestDto;
@@ -28,10 +32,10 @@ public class OrderItemServiceImpl implements OrderItemService {
     @Transactional
     public void addOrderItem(Long orderId, OrderItemRequestDto requestDto) {
         Order order = ordersRepository.findById(orderId)
-                .orElseThrow(() -> new RuntimeException("Order not found"));
+                .orElseThrow(() -> new OrderNotFoundException(orderId));
 
         ProductVariant variant = variantRepository.findById(requestDto.getVariantId())
-                .orElseThrow(() -> new RuntimeException("Product Variant not found"));
+                .orElseThrow(() -> new ProductVariantNotFoundException(requestDto.getVariantId()));
 
         OrderItem entity = mapper.toEntity(requestDto);
         entity.setOrder(order);
@@ -48,16 +52,16 @@ public class OrderItemServiceImpl implements OrderItemService {
     @Transactional
     public void updateOrderItem(Long orderId, Long itemId, OrderItemRequestDto requestDto) {
         OrderItem orderItem = repository.findById(itemId)
-                .orElseThrow(() -> new RuntimeException("OrderItem not found"));
+                .orElseThrow(() -> new OrderItemNotFoundException(itemId));
 
         if (!orderItem.getOrder().getId().equals(orderId)) {
-            throw new RuntimeException("OrderItem does not belong to the specified order");
+            throw new BadRequestException("OrderItem " + itemId + " does not belong to order " + orderId);
         }
 
         if (requestDto.getVariantId() != null &&
                 !requestDto.getVariantId().equals(orderItem.getVariant().getId())) {
             ProductVariant variant = variantRepository.findById(requestDto.getVariantId())
-                    .orElseThrow(() -> new RuntimeException("Product Variant not found"));
+                    .orElseThrow(() -> new ProductVariantNotFoundException(requestDto.getVariantId()));
             orderItem.setVariant(variant);
         }
 
@@ -69,10 +73,10 @@ public class OrderItemServiceImpl implements OrderItemService {
     @Transactional
     public void deleteOrderItem(Long orderId, Long itemId) {
         OrderItem orderItem = repository.findById(itemId)
-                .orElseThrow(() -> new RuntimeException("OrderItem not found"));
+                .orElseThrow(() -> new OrderItemNotFoundException(itemId));
 
         if (!orderItem.getOrder().getId().equals(orderId)) {
-            throw new RuntimeException("OrderItem does not belong to the specified order");
+            throw new BadRequestException("OrderItem " + itemId + " does not belong to order " + orderId);
         }
 
         repository.delete(orderItem);
@@ -82,7 +86,7 @@ public class OrderItemServiceImpl implements OrderItemService {
     @Transactional(readOnly = true)
     public List<OrderItemDto> getOrderItems(Long orderId) {
         Order order = ordersRepository.findById(orderId)
-                .orElseThrow(() -> new RuntimeException("Order not found"));
+                .orElseThrow(() -> new OrderNotFoundException(orderId));
 
         List<OrderItem> orderItemList = repository.findAllByOrder(order);
         return mapper.toDtoList(orderItemList);
