@@ -4,12 +4,13 @@ import edu.icet.model.entity.Category;
 import edu.icet.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
-
+@Repository
 public class CategoryRepositoryImpl implements CategoryRepository {
 
     private final JdbcTemplate jdbcTemplate;
