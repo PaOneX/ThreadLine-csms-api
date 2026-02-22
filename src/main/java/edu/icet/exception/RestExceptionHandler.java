@@ -1,7 +1,7 @@
 package edu.icet.exception;
 
 import edu.icet.model.dto.auth.ApiResponse;
-import jakarta.validation.ConstraintViolationException;
+//import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -33,11 +33,11 @@ public class RestExceptionHandler {
     /**
      * Handles validation errors for {@code @Validated} constraints on request params/path variables.
      */
-    @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<ApiResponse<Void>> handleConstraintViolation(ConstraintViolationException ex) {
-        return ResponseEntity.badRequest()
-                .body(ApiResponse.error(400, ex.getMessage(), "VALIDATION_ERROR"));
-    }
+//    @ExceptionHandler(ConstraintViolationException.class)
+//    public ResponseEntity<ApiResponse<Void>> handleConstraintViolation(ConstraintViolationException ex) {
+//        return ResponseEntity.badRequest()
+//                .body(ApiResponse.error(400, ex.getMessage(), "VALIDATION_ERROR"));
+//    }
 
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ApiResponse<Void>> handleAccessDenied(AccessDeniedException ex) {
