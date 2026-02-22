@@ -3,6 +3,12 @@ spring:
     url: jdbc:mysql://localhost:3306/${DB_NAME}
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    validate-on-migrate: false
+    # Ignore missing migrations that were previously applied
+    ignore-migration-patterns: "*:missing"
 
 security:
   jwt:
