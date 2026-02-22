@@ -1,7 +1,7 @@
 package edu.icet.model.dto.user;
 
 import edu.icet.model.enums.Gender;
-import jakarta.validation.constraints.Size;
+//import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UpdateProfileRequest {
 
-    @Size(max = 100, message = "full name is too long")
+//    @Size(max = 100, message = "full name is too long")
     private String fullName;
 
     private Gender gender;
