@@ -2,8 +2,8 @@ package edu.icet.service.impl;
 
 import edu.icet.model.entity.User;
 import edu.icet.repository.UserRepository;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.jspecify.annotations.NonNull;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
