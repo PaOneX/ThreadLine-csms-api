@@ -7,11 +7,11 @@ import edu.icet.model.dto.user.UpdateUserRolesRequest;
 import edu.icet.model.dto.user.UserDto;
 import edu.icet.model.dto.user.UserSearchCriteria;
 import edu.icet.service.AdminUserService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.enums.ParameterIn;
-import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.Valid;
+//import io.swagger.v3.oas.annotations.Operation;
+//import io.swagger.v3.oas.annotations.Parameter;
+//import io.swagger.v3.oas.annotations.enums.ParameterIn;
+//import io.swagger.v3.oas.annotations.media.Schema;
+//import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 //import org.springframework.data.domain.Page;
 //import org.springframework.data.domain.Pageable;
@@ -59,7 +59,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<ApiResponse<UserDto>> createUser(@Valid @RequestBody AdminCreateUserRequest request) {
+    public ResponseEntity<ApiResponse<UserDto>> createUser(@RequestBody AdminCreateUserRequest request) {
         UserDto createdUser = adminUserService.createUser(request);
         URI location = URI.create("/api/admin/users/" + createdUser.getId());
         return ResponseEntity.created(location).body(
@@ -70,7 +70,7 @@ public class UserController {
     @PutMapping("/{id}/roles")
     public ResponseEntity<ApiResponse<UserDto>> updateUserRoles(
             @PathVariable Long id,
-            @Valid @RequestBody UpdateUserRolesRequest request
+            @RequestBody UpdateUserRolesRequest request
     ) {
         UserDto updatedUser = adminUserService.updateUserRoles(id, request);
         return ResponseEntity.ok(
