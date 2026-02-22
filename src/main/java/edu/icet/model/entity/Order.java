@@ -32,7 +32,7 @@ public class Order {
 
     private LocalDateTime updatedAt;
 
-    protected void onCreate() {
+    public void onCreate() {
         createdAt = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
         if (orderDate == null) {
@@ -43,7 +43,7 @@ public class Order {
         }
     }
 
-    protected void onUpdate() {
+    public void onUpdate() {
         updatedAt = LocalDateTime.now();
     }
 }

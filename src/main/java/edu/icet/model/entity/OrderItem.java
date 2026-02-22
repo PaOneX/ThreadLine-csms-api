@@ -24,7 +24,7 @@ public class OrderItem {
 
     private LocalDateTime createdAt;
 
-    protected void onCreate() {
+    public void onCreate() {
         createdAt = LocalDateTime.now();
     }
 }
