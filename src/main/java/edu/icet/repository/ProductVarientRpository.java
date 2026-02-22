@@ -2,7 +2,6 @@ package edu.icet.repository;
 
 import edu.icet.model.entity.Product;
 import edu.icet.model.entity.ProductVariant;
-import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,7 +15,7 @@ public interface ProductVarientRpository {
 
     Optional<ProductVariant> findByProductId(Long productId);
 
-    Optional<ProductVariant> findById(@NotNull(message = "variantId must not be null") Long variantId);
+    Optional<ProductVariant> findById(Long variantId);
 
     void save(ProductVariant variant);
 
