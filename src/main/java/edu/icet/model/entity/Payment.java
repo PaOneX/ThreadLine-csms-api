@@ -27,7 +27,7 @@ public class Payment {
 
     private LocalDateTime createdAt;
 
-    protected void onCreate() {
+    public void onCreate() {
         createdAt = LocalDateTime.now();
         if (paymentDate == null) {
             paymentDate = LocalDateTime.now();
