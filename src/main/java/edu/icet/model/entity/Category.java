@@ -30,7 +30,7 @@ public class Category {
         updatedAt = LocalDateTime.now();
     }
 
-     public void onUpdate() {
+    public void onUpdate() {
         updatedAt = LocalDateTime.now();
     }
 }

@@ -1,7 +1,6 @@
 package edu.icet.exception;
 
 import edu.icet.model.dto.auth.ApiResponse;
-//import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -38,7 +37,6 @@ public class RestExceptionHandler {
 //        return ResponseEntity.badRequest()
 //                .body(ApiResponse.error(400, ex.getMessage(), "VALIDATION_ERROR"));
 //    }
-
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ApiResponse<Void>> handleAccessDenied(AccessDeniedException ex) {
         return ResponseEntity.status(HttpStatus.FORBIDDEN)

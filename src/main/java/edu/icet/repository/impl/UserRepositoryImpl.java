@@ -1,5 +1,6 @@
 package edu.icet.repository.impl;
 
+import edu.icet.model.dto.Page;
 import edu.icet.model.entity.User;
 import edu.icet.model.enums.Gender;
 import edu.icet.repository.UserRepository;
@@ -10,6 +11,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.awt.print.Pageable;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.sql.Timestamp;
@@ -66,6 +68,16 @@ public class UserRepositoryImpl implements UserRepository {
         String sql = "SELECT COUNT(*) FROM users WHERE LOWER(email) = LOWER(?)";
         Integer count = jdbcTemplate.queryForObject(sql, Integer.class, email);
         return count != null && count > 0;
+    }
+
+    @Override
+    public Page<User> findUsersByCriteria(String username, String email, Boolean enabled, Pageable pageable) {
+        return null;
+    }
+
+    @Override
+    public Page<User> findByRoleAndEnabled(String roleName, Boolean enabled, Pageable pageable) {
+        return null;
     }
 
     @Override

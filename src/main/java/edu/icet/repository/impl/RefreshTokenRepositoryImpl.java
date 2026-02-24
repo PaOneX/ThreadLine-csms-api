@@ -56,9 +56,9 @@ public class RefreshTokenRepositoryImpl implements RefreshTokenRepository {
         return tokens.isEmpty() ? Optional.empty() : Optional.of(tokens.get(0));
     }
 
+    @Override
     public void save(RefreshToken refreshToken) {
         if (refreshToken.getId() == null) {
-            // INSERT
             String sql = "INSERT INTO refresh_tokens (token, user_id, expiry_date, created_at) VALUES (?, ?, ?, ?)";
             KeyHolder keyHolder = new GeneratedKeyHolder();
             jdbcTemplate.update(connection -> {
@@ -73,7 +73,6 @@ public class RefreshTokenRepositoryImpl implements RefreshTokenRepository {
                 refreshToken.setId(keyHolder.getKey().longValue());
             }
         } else {
-            // UPDATE
             String sql = "UPDATE refresh_tokens SET token = ?, user_id = ?, expiry_date = ? WHERE id = ?";
             jdbcTemplate.update(sql,
                     refreshToken.getToken(),
@@ -83,19 +82,17 @@ public class RefreshTokenRepositoryImpl implements RefreshTokenRepository {
         }
     }
 
-    public void deleteByUser(User user) {
-        String sql = "DELETE FROM refresh_tokens WHERE user_id = ?";
-        jdbcTemplate.update(sql, user.getId());
-    }
-
-    public void deleteByToken(String token) {
-        String sql = "DELETE FROM refresh_tokens WHERE token = ?";
-        jdbcTemplate.update(sql, token);
-    }
-
-    public void deleteById(Long id) {
-        String sql = "DELETE FROM refresh_tokens WHERE id = ?";
-        jdbcTemplate.update(sql, id);
+    @Override
+    public void delete(RefreshToken refreshToken) {
+        if (refreshToken.getId() != null) {
+            String sql = "DELETE FROM refresh_tokens WHERE id = ?";
+            jdbcTemplate.update(sql, refreshToken.getId());
+        } else if (refreshToken.getToken() != null) {
+            String sql = "DELETE FROM refresh_tokens WHERE token = ?";
+            jdbcTemplate.update(sql, refreshToken.getToken());
+        } else if (refreshToken.getUser() != null && refreshToken.getUser().getId() != null) {
+            String sql = "DELETE FROM refresh_tokens WHERE user_id = ?";
+            jdbcTemplate.update(sql, refreshToken.getUser().getId());
+        }
     }
 }
-

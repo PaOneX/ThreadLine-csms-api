@@ -11,6 +11,7 @@ public interface OrdersRepository {
     List<Order> findByUser(User user);
 
     List<Order> findByUserId(Long userId);
+
     Optional<Order> findById(Long userId);
 
     List<Order> findByStatus(OrderStatus status);

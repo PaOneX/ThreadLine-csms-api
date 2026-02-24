@@ -1,6 +1,5 @@
 package edu.icet.config;
 
-//import edu.icet.util.jwt.JwtAuthenticationFilter;
 import edu.icet.util.jwt.JwtAuthenticationFilter;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -55,7 +54,6 @@ public class SecurityConfig {
 
         http.authorizeHttpRequests(auth -> {
             if (permitAll) {
-                // Dev mode: allow everything. Keep JWT filter registered so you can still test auth endpoints.
                 auth.anyRequest().permitAll();
                 return;
             }

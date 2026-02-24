@@ -3,6 +3,7 @@ package edu.icet.service.impl;
 import edu.icet.exception.UserNotFoundException;
 import edu.icet.mapper.RoleMapper;
 import edu.icet.mapper.UserMapper;
+import edu.icet.model.dto.Page;
 import edu.icet.model.dto.user.AdminCreateUserRequest;
 import edu.icet.model.dto.user.UpdateUserRolesRequest;
 import edu.icet.model.dto.user.UserDto;
@@ -12,13 +13,11 @@ import edu.icet.model.entity.User;
 import edu.icet.repository.RoleRepository;
 import edu.icet.repository.UserRepository;
 import edu.icet.service.AdminUserService;
-//import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-//import org.springframework.data.domain.Page;
-//import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.awt.print.Pageable;
 import java.util.Set;
 
 @Service
@@ -89,28 +88,28 @@ public class AdminUserServiceImpl implements AdminUserService {
         return userMapper.toDto(updatedUser);
     }
 
-//    @Override
-//    public Page<UserDto> findUsers(UserSearchCriteria criteria, Pageable pageable) {
-//        Page<User> userPage;
-//
-//        if (criteria.getRole() != null && !criteria.getRole().isEmpty()) {
-//            userPage = userRepository.findByRoleAndEnabled(
-//                    criteria.getRole(),
-//                    criteria.getEnabled(),
-//                    pageable
-//            );
-//        } else {
-//            userPage = userRepository.findUsersByCriteria(
-//                    criteria.getUsername(),
-//                    criteria.getEmail(),
-//                    criteria.getEnabled(),
-//                    pageable
-//            );
-//        }
-//
-//        // Use Page.map() to convert Page<User> to Page<UserDto>
-//        return userPage.map(userMapper::toDto);
-//    }
+    @Override
+    public Page<UserDto> findUsers(UserSearchCriteria criteria, Pageable pageable) {
+        Page<User> userPage;
+
+        if (criteria.getRole() != null && !criteria.getRole().isEmpty()) {
+            userPage = userRepository.findByRoleAndEnabled(
+                    criteria.getRole(),
+                    criteria.getEnabled(),
+                    pageable
+            );
+        } else {
+            userPage = userRepository.findUsersByCriteria(
+                    criteria.getUsername(),
+                    criteria.getEmail(),
+                    criteria.getEnabled(),
+                    pageable
+            );
+        }
+
+        // Use Page.map() to convert Page<User> to Page<UserDto>
+        return userPage.map(userMapper::toDto);
+    }
 
 
     @Override
