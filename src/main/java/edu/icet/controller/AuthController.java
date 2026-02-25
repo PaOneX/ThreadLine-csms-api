@@ -60,8 +60,10 @@ public class AuthController {
                     new UsernamePasswordAuthenticationToken(req.getUsername(), req.getPassword())
             );
 
+            // Username from the authenticated principal (safe, no cast needed)
             String username = auth.getName();
 
+            // Load DB user to check enabled and roles (also ensures we have current roles)
             User userEntity = userRepository.findByUsername(username)
                     .orElseThrow(() -> new UsernameNotFoundException("User record not found"));
 
@@ -139,7 +141,9 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(body);
         }
 
-        return refreshTokenRepository.findByToken(refreshTokenString)
+        // Server-side validation ensures token hasn't been revoked
+        final String finalRefreshTokenString = refreshTokenString;
+        return refreshTokenRepository.findByToken(finalRefreshTokenString)
                 .map((RefreshToken oldRefreshToken) -> {
                     if (oldRefreshToken.getExpiryDate() != null && oldRefreshToken.getExpiryDate().isBefore(Instant.now())) {
                         refreshTokenRepository.delete(oldRefreshToken);
@@ -184,7 +188,7 @@ public class AuthController {
                             "Bearer",
                             newAccessToken,
                             jwtService.getAccessTokenExpirySeconds(),
-                            newRefreshTokenString,
+                            newRefreshTokenString,  // ← NEW refresh token!
                             roles
                     );
 
@@ -216,11 +220,14 @@ public class AuthController {
         if (refreshTokenString == null && req != null) {
             refreshTokenString = req.getRefreshToken();
         }
+
         if (refreshTokenString != null) {
             refreshTokenRepository.findByToken(refreshTokenString)
                     .ifPresent(refreshTokenRepository::delete);
         }
+
         CookieUtil.deleteAuthCookies(response);
+
         return ResponseEntity.ok(ApiResponse.success(200, "Logged out", null));
     }
 

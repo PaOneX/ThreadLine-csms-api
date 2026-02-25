@@ -5,12 +5,8 @@ import edu.icet.repository.RoleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import java.sql.PreparedStatement;
-import java.sql.Statement;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,7 +26,7 @@ public class RoleRepositoryImpl implements RoleRepository {
     public Optional<Role> findByName(String name) {
         String sql = "SELECT * FROM roles WHERE name = ?";
         List<Role> roles = jdbcTemplate.query(sql, roleRowMapper, name);
-        return roles.isEmpty() ? Optional.empty() : Optional.of(roles.get(0));
+        return roles.stream().findFirst();
     }
 
     @Override
@@ -41,23 +37,34 @@ public class RoleRepositoryImpl implements RoleRepository {
     }
 
     @Override
-    public void save(Role role) {
-        if (role.getId() == null) {
-            // INSERT
-            String sql = "INSERT INTO roles (name) VALUES (?)";
-            KeyHolder keyHolder = new GeneratedKeyHolder();
-            jdbcTemplate.update(connection -> {
-                PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-                ps.setString(1, role.getName());
-                return ps;
-            }, keyHolder);
-            if (keyHolder.getKey() != null) {
-                role.setId(keyHolder.getKey().longValue());
-            }
-        } else {
-            // UPDATE
-            String sql = "UPDATE roles SET name = ? WHERE id = ?";
-            jdbcTemplate.update(sql, role.getName(), role.getId());
-        }
+    public List<Role> findAll() {
+        String sql = "SELECT * FROM roles";
+        return jdbcTemplate.query(sql, roleRowMapper);
+    }
+
+    @Override
+    public Role save(Role role) {
+        String sql = "INSERT INTO roles (name) VALUES (?)";
+        jdbcTemplate.update(sql, role.getName());
+        return findByName(role.getName()).orElseThrow();
+    }
+
+    @Override
+    public Optional<Role> findById(Long id) {
+        String sql = "SELECT * FROM roles WHERE id = ?";
+        List<Role> roles = jdbcTemplate.query(sql, roleRowMapper, id);
+        return roles.stream().findFirst();
+    }
+
+    @Override
+    public List<String> findAllRoleNames() {
+        String sql = "SELECT name FROM roles";
+        return jdbcTemplate.queryForList(sql, String.class);
+    }
+
+    @Override
+    public Long findRoleIdByName(String name) {
+        String sql = "SELECT id FROM roles WHERE name = ?";
+        return jdbcTemplate.queryForObject(sql, Long.class, name);
     }
 }

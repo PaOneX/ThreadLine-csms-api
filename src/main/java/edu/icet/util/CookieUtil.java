@@ -15,6 +15,7 @@ public class CookieUtil {
         cookie.setSecure(false);   // Set to true in production with HTTPS
         cookie.setPath("/");       // Available across entire application
         cookie.setMaxAge(maxAgeSeconds);
+        // cookie.setAttribute("SameSite", "Strict"); // Uncomment for additional CSRF protection
         return cookie;
     }
 
@@ -24,6 +25,7 @@ public class CookieUtil {
         cookie.setSecure(false);   // Set to true in production with HTTPS
         cookie.setPath("/auth");   // Only accessible on auth endpoints (more restrictive)
         cookie.setMaxAge(maxAgeSeconds);
+        // cookie.setAttribute("SameSite", "Strict"); // Uncomment for additional CSRF protection
         return cookie;
     }
 

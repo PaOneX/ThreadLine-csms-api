@@ -2,6 +2,7 @@ package edu.icet.repository;
 
 import edu.icet.model.entity.Role;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface RoleRepository {
@@ -9,5 +10,13 @@ public interface RoleRepository {
 
     boolean existsByName(String name);
 
-    void save(Role role);
+    List<Role> findAll();
+
+    Role save(Role role);
+
+    Optional<Role> findById(Long id);
+
+    List<String> findAllRoleNames();
+
+    Long findRoleIdByName(String name);
 }

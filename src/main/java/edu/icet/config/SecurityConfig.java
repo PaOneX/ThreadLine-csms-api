@@ -33,7 +33,7 @@ public class SecurityConfig {
     private boolean permitAll;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -54,6 +54,7 @@ public class SecurityConfig {
 
         http.authorizeHttpRequests(auth -> {
             if (permitAll) {
+                // Dev mode: allow everything. Keep JWT filter registered so you can still test auth endpoints.
                 auth.anyRequest().permitAll();
                 return;
             }

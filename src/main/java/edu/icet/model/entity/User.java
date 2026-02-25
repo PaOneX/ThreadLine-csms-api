@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -26,7 +27,7 @@ public class User {
 
     private String password;
 
-    private Set<Role> roles;
+    private Set<Role> roles = new HashSet<>();
 
     private Boolean enabled = true;
 

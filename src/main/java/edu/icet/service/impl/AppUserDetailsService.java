@@ -2,8 +2,8 @@ package edu.icet.service.impl;
 
 import edu.icet.model.entity.User;
 import edu.icet.repository.UserRepository;
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.jspecify.annotations.NonNull;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -36,7 +36,7 @@ public class AppUserDetailsService implements UserDetailsService {
         return new org.springframework.security.core.userdetails.User(
                 user.getUsername(),
                 user.getPassword(),
-                user.getEnabled(),  // ← Check if user is enabled
+                Boolean.TRUE.equals(user.getEnabled()),
                 true,  // accountNonExpired
                 true,  // credentialsNonExpired
                 true,  // accountNonLocked
