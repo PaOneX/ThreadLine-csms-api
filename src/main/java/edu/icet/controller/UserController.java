@@ -1,6 +1,8 @@
 package edu.icet.controller;
 
+import edu.icet.model.dto.Page;
 import edu.icet.model.dto.PageResponse;
+import edu.icet.model.dto.Pageable;
 import edu.icet.model.dto.auth.ApiResponse;
 import edu.icet.model.dto.user.AdminCreateUserRequest;
 import edu.icet.model.dto.user.UpdateUserRolesRequest;
@@ -26,11 +28,10 @@ public class UserController {
     @GetMapping
     public ResponseEntity<ApiResponse<PageResponse<UserDto>>> findUsers(
             @Parameter(hidden = true) UserSearchCriteria criteria,
-            @Parameter(hidden = true)
-            @PageableDefault(size = 20, sort = "username", direction = Sort.Direction.ASC) Pageable pageable
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "20") int size
     ) {
-        // pageable + criteria are both optional.
-        // /api/admin/users will work with defaults: page=0,size=20,sort=username,asc
+        Pageable pageable = new Pageable(page, size);
         Page<UserDto> users = adminUserService.findUsers(criteria, pageable);
         PageResponse<UserDto> pageResponse = PageResponse.of(users);
         return ResponseEntity.ok(

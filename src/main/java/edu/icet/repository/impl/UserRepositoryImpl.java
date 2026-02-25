@@ -1,6 +1,7 @@
 package edu.icet.repository.impl;
 
 import edu.icet.model.dto.Page;
+import edu.icet.model.dto.Pageable;
 import edu.icet.model.entity.User;
 import edu.icet.model.enums.Gender;
 import edu.icet.repository.UserRepository;
@@ -11,7 +12,6 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import java.awt.print.Pageable;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.sql.Timestamp;
@@ -49,6 +49,18 @@ public class UserRepositoryImpl implements UserRepository {
         return user;
     };
 
+    private static void appendWhere(StringBuilder sb, String field, Object value) {
+        if (value != null && !value.toString().isEmpty()) {
+            sb.append(" AND ").append(field).append(" LIKE ?");
+        }
+    }
+
+    private static void appendWhereBool(StringBuilder sb, String field, Boolean value) {
+        if (value != null) {
+            sb.append(" AND ").append(field).append(" = ?");
+        }
+    }
+
     @Override
     public Optional<User> findByUsername(String username) {
         String sql = "SELECT * FROM users WHERE username = ?";
@@ -72,12 +84,61 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public Page<User> findUsersByCriteria(String username, String email, Boolean enabled, Pageable pageable) {
-        return null;
+        StringBuilder sql = new StringBuilder("SELECT * FROM users WHERE 1=1");
+        StringBuilder countSql = new StringBuilder("SELECT COUNT(*) FROM users WHERE 1=1");
+        appendWhere(sql, "username", username);
+        appendWhere(countSql, "username", username);
+        appendWhere(sql, "email", email);
+        appendWhere(countSql, "email", email);
+        appendWhereBool(sql, "enabled", enabled);
+        appendWhereBool(countSql, "enabled", enabled);
+
+        sql.append(" ORDER BY id DESC LIMIT ? OFFSET ?");
+
+        java.util.List<Object> params = new java.util.ArrayList<>();
+        java.util.List<Object> countParams = new java.util.ArrayList<>();
+        if (username != null && !username.isEmpty()) {
+            params.add("%" + username + "%");
+            countParams.add("%" + username + "%");
+        }
+        if (email != null && !email.isEmpty()) {
+            params.add("%" + email + "%");
+            countParams.add("%" + email + "%");
+        }
+        if (enabled != null) {
+            params.add(enabled);
+            countParams.add(enabled);
+        }
+        params.add(pageable.getSize());
+        params.add(pageable.getPage() * pageable.getSize());
+
+        List<User> users = jdbcTemplate.query(sql.toString(), userRowMapper, params.toArray());
+        Integer totalElements = jdbcTemplate.queryForObject(countSql.toString(), Integer.class, countParams.toArray());
+        int totalPages = (int) Math.ceil((totalElements != null ? totalElements : 0) / (double) pageable.getSize());
+        return new Page<>(users, totalPages, totalElements != null ? totalElements : 0, pageable.getSize(), pageable.getPage());
     }
 
     @Override
     public Page<User> findByRoleAndEnabled(String roleName, Boolean enabled, Pageable pageable) {
-        return null;
+        StringBuilder sql = new StringBuilder("SELECT u.* FROM users u JOIN user_roles ur ON u.id = ur.user_id JOIN roles r ON ur.role_id = r.id WHERE r.name = ?");
+        StringBuilder countSql = new StringBuilder("SELECT COUNT(*) FROM users u JOIN user_roles ur ON u.id = ur.user_id JOIN roles r ON ur.role_id = r.id WHERE r.name = ?");
+        java.util.List<Object> params = new java.util.ArrayList<>();
+        java.util.List<Object> countParams = new java.util.ArrayList<>();
+        params.add(roleName);
+        countParams.add(roleName);
+        if (enabled != null) {
+            sql.append(" AND u.enabled = ?");
+            countSql.append(" AND u.enabled = ?");
+            params.add(enabled);
+            countParams.add(enabled);
+        }
+        sql.append(" ORDER BY u.id DESC LIMIT ? OFFSET ?");
+        params.add(pageable.getSize());
+        params.add(pageable.getPage() * pageable.getSize());
+        List<User> users = jdbcTemplate.query(sql.toString(), userRowMapper, params.toArray());
+        Integer totalElements = jdbcTemplate.queryForObject(countSql.toString(), Integer.class, countParams.toArray());
+        int totalPages = (int) Math.ceil((totalElements != null ? totalElements : 0) / (double) pageable.getSize());
+        return new Page<>(users, totalPages, totalElements != null ? totalElements : 0, pageable.getSize(), pageable.getPage());
     }
 
     @Override

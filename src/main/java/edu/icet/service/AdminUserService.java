@@ -1,15 +1,11 @@
 package edu.icet.service;
 
 import edu.icet.model.dto.Page;
+import edu.icet.model.dto.Pageable;
 import edu.icet.model.dto.user.AdminCreateUserRequest;
 import edu.icet.model.dto.user.UpdateUserRolesRequest;
 import edu.icet.model.dto.user.UserDto;
 import edu.icet.model.dto.user.UserSearchCriteria;
-
-import java.awt.print.Pageable;
-//import edu.icet.model.dto.user.UserSearchCriteria;
-//import org.springframework.data.domain.Page;
-//import org.springframework.data.domain.Pageable;
 
 public interface AdminUserService {
 

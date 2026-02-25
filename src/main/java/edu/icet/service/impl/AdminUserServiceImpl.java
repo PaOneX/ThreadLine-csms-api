@@ -4,20 +4,19 @@ import edu.icet.exception.UserNotFoundException;
 import edu.icet.mapper.RoleMapper;
 import edu.icet.mapper.UserMapper;
 import edu.icet.model.dto.Page;
+import edu.icet.model.dto.Pageable;
 import edu.icet.model.dto.user.AdminCreateUserRequest;
 import edu.icet.model.dto.user.UpdateUserRolesRequest;
 import edu.icet.model.dto.user.UserDto;
 import edu.icet.model.dto.user.UserSearchCriteria;
 import edu.icet.model.entity.Role;
 import edu.icet.model.entity.User;
-import edu.icet.repository.RoleRepository;
 import edu.icet.repository.UserRepository;
 import edu.icet.service.AdminUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.Pageable;
 import java.util.Set;
 
 @Service
@@ -25,7 +24,6 @@ import java.util.Set;
 public class AdminUserServiceImpl implements AdminUserService {
 
     private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final RoleMapper roleMapper;
     private final UserMapper userMapper;

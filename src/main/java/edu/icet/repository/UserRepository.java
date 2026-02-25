@@ -1,9 +1,9 @@
 package edu.icet.repository;
 
 import edu.icet.model.dto.Page;
+import edu.icet.model.dto.Pageable;
 import edu.icet.model.entity.User;
 
-import java.awt.print.Pageable;
 import java.util.List;
 import java.util.Optional;
 
