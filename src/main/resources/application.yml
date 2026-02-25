@@ -3,29 +3,18 @@ spring:
     url: jdbc:mysql://localhost:3306/${DB_NAME}
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    validate-on-migrate: false
+    ignore-migration-patterns: "*:missing"
 
 security:
   jwt:
-    secret-base64: ${JWT_SECRET}
+    secret-base64: "VGhpcyBpcyBhIHNhbXBsZSBzZWNyZXQgdXNlIGEgcmVhbCBvbmUgaW4gcHJvZHVjdGlvbiE="
     access-token-expiry-minutes: 15
     refresh-token-expiry-days: 7
 
-# Application configuration
 app:
-  # Dev-only: set true to disable authentication/authorization checks (permit all requests).
-  # Keep false in production.
   security:
     permit-all: ${APP_SECURITY_PERMIT_ALL:false}
-
-  # Bootstrap configuration for initial system setup
-  # These create the first OWNER account when the database is empty
-  # ⚠️ CHANGE THE PASSWORD IN PRODUCTION via environment variables
-  bootstrap:
-    owner:
-      username: ${APP_BOOTSTRAP_OWNER_USERNAME:owner}
-      email: ${APP_BOOTSTRAP_OWNER_EMAIL:owner@threadline.local}
-      password: ${APP_BOOTSTRAP_OWNER_PASSWORD:Owner@123}

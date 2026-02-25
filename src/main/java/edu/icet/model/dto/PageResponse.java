@@ -2,7 +2,6 @@ package edu.icet.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -18,14 +17,16 @@ public class PageResponse<T> {
     private boolean last;
 
     public static <T> PageResponse<T> of(Page<T> page) {
+        boolean first = page.getNumber() == 0;
+        boolean last = page.getNumber() == (page.getTotalPages() - 1);
         return new PageResponse<>(
                 page.getContent(),
                 page.getNumber(),
                 page.getSize(),
                 page.getTotalElements(),
                 page.getTotalPages(),
-                page.isFirst(),
-                page.isLast()
+                first,
+                last
         );
     }
 }

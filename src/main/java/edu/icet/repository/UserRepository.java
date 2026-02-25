@@ -1,41 +1,36 @@
 package edu.icet.repository;
 
 import edu.icet.model.entity.User;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 import java.util.Optional;
 
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository {
+    Optional<User> findById(Long id);
 
     Optional<User> findByUsername(String username);
+
+    Optional<User> findByEmail(String email);
+
+    List<User> findAll(int offset, int limit, String sortBy, String direction, String search);
+
+    long count(String search);
+
+    User save(User user);
+
+    void update(User user);
+
+    void deleteById(Long id);
+
+    void enableUser(Long id);
+
+    void disableUser(Long id);
+
+    List<String> findRolesByUserId(Long userId);
+
+    void updateUserRoles(Long userId, List<Long> roleIds);
 
     boolean existsByUsernameIgnoreCase(String username);
 
     boolean existsByEmailIgnoreCase(String email);
-
-    // Pagination with search and filter
-    @Query("SELECT u FROM User u WHERE " +
-            "(:username IS NULL OR LOWER(u.username) LIKE LOWER(CONCAT('%', :username, '%'))) AND " +
-            "(:email IS NULL OR LOWER(u.email) LIKE LOWER(CONCAT('%', :email, '%'))) AND " +
-            "(:enabled IS NULL OR u.enabled = :enabled)")
-    Page<User> findUsersByCriteria(
-            @Param("username") String username,
-            @Param("email") String email,
-            @Param("enabled") Boolean enabled,
-            Pageable pageable
-    );
-
-    // Filter by role
-    @Query("SELECT DISTINCT u FROM User u JOIN u.roles r WHERE " +
-            "r.name = :roleName AND " +
-            "(:enabled IS NULL OR u.enabled = :enabled)")
-    Page<User> findByRoleAndEnabled(
-            @Param("roleName") String roleName,
-            @Param("enabled") Boolean enabled,
-            Pageable pageable
-    );
 }

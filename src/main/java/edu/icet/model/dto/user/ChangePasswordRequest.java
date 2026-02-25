@@ -6,10 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * Request DTO for password change.
- * Requires current password for security verification.
- */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

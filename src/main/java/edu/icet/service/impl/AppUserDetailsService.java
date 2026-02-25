@@ -36,7 +36,7 @@ public class AppUserDetailsService implements UserDetailsService {
         return new org.springframework.security.core.userdetails.User(
                 user.getUsername(),
                 user.getPassword(),
-                user.getEnabled(),  // ← Check if user is enabled
+                Boolean.TRUE.equals(user.getEnabled()),
                 true,  // accountNonExpired
                 true,  // credentialsNonExpired
                 true,  // accountNonLocked

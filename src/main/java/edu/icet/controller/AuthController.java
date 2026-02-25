@@ -217,7 +217,6 @@ public class AuthController {
                 }
             }
         }
-        // Fallback to request body if cookie not found
         if (refreshTokenString == null && req != null) {
             refreshTokenString = req.getRefreshToken();
         }
@@ -232,22 +231,12 @@ public class AuthController {
         return ResponseEntity.ok(ApiResponse.success(200, "Logged out", null));
     }
 
-    // ==================== User Profile Endpoints ====================
-
-    /**
-     * Get current user's profile.
-     * Any authenticated user can access their own profile.
-     */
     @GetMapping("/me")
     public ResponseEntity<ApiResponse<UserDto>> getCurrentUserProfile(Principal principal) {
         UserDto profile = profileService.getCurrentUserProfile(principal.getName());
         return ResponseEntity.ok(ApiResponse.success(200, "Profile retrieved", profile));
     }
 
-    /**
-     * Update current user's profile (fullName, etc.).
-     * Users can only update their own profile.
-     */
     @PutMapping("/me")
     public ResponseEntity<ApiResponse<UserDto>> updateProfile(
             Principal principal,
@@ -257,10 +246,6 @@ public class AuthController {
         return ResponseEntity.ok(ApiResponse.success(200, "Profile updated", updated));
     }
 
-    /**
-     * Change current user's password.
-     * Requires current password for verification.
-     */
     @PutMapping("/me/password")
     public ResponseEntity<ApiResponse<Void>> changePassword(
             Principal principal,
